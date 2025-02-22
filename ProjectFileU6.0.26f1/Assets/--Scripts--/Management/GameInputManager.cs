@@ -105,9 +105,6 @@ public class GameInputManager : MonoBehaviour
                 //determine spawns after we have all players
                 DetermineSpawns();
                 
-                //get player role decisions
-                _playerRoleDecisions = UIManager.Instance.GetPlayerRoleAssignments();
-                
                 break;
             case ePlayState.Play:
 

@@ -194,7 +194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2353597613094066624, guid: 5b108364400268948bbd2af117c80198, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2353597613094066624, guid: 5b108364400268948bbd2af117c80198, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -294,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4205425385250161472, guid: 5b108364400268948bbd2af117c80198, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4205425385250161472, guid: 5b108364400268948bbd2af117c80198, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -302,6 +302,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4205425385250161472, guid: 5b108364400268948bbd2af117c80198, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730993639427022699, guid: 5b108364400268948bbd2af117c80198, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 2026480766}
+    - target: {fileID: 5730993639427022699, guid: 5b108364400268948bbd2af117c80198, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730993639427022699, guid: 5b108364400268948bbd2af117c80198, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730993639427022699, guid: 5b108364400268948bbd2af117c80198, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730993639427022699, guid: 5b108364400268948bbd2af117c80198, type: 3}
+      propertyPath: m_UpdateRectTransformForStandalone
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6199052804631615369, guid: 5b108364400268948bbd2af117c80198, type: 3}
