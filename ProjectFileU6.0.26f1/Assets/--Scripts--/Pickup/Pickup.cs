@@ -1,18 +1,23 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public enum EPickupType
 {
     None,
-    //add here
+    Coffee,
+    Banana,
+    Barricade
 }
 public class Pickup : MonoBehaviour
 {
     [Header("Pickup Type Selection")]
     [SerializeField] private EPickupType pickupType;
+    [SerializeField] private Sprite pickUpSprite;
+
     
     [Header("Team Settings")]
     
@@ -85,7 +90,13 @@ public class Pickup : MonoBehaviour
         if (health == null || !teamsToAffect.Contains(health.Team)) return;
 
         
-        //DO SOMETHING HERE
+        PlayerInventory playerInventory = GetComponentInParent<PlayerInventory>();
+        
+        playerInventory.TryAddItem(gameObject, pickUpSprite);
+        if (playerInventory.TryAddItem(gameObject, pickUpSprite) == true)
+        {
+            
+        //Sprite itemSprite = GetComponent<Projectile>().ProjectileSprite;
         
         if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
         {
@@ -93,6 +104,12 @@ public class Pickup : MonoBehaviour
         }
 
         Destroy(gameObject);
+        }
+
+        else
+        return;
+            
+        
     }
     
     private void SpawnEndEffect(bool fromPickedUp)

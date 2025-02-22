@@ -16,9 +16,9 @@ public class PlayerInventory : MonoBehaviour
         spritesStack = new Stack<Sprite>();
     }
     
-    public bool TryAddItem(GameObject cannonBall)
+    public bool TryAddItem(GameObject cannonBall, Sprite itemSprite)
     {
-        Sprite itemSprite = cannonBall.GetComponent<Projectile>().ProjectileSprite;
+        //Sprite itemSprite = cannonBall.GetComponent<Projectile>().ProjectileSprite;
         
         if (itemsStack.Count < maxItems)
         {
