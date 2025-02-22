@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -24,9 +23,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private int gameLostChildIndex = 4;
     
-    [SerializeField]
-    private int gameWonChildIndex = 5;
-    
     [Header("General Icon Settings")]
     
     [SerializeField]
@@ -42,40 +38,6 @@ public class UIManager : MonoBehaviour
     
     [SerializeField]
     private Vector2 readyButtonOffset = Vector2.zero;
-
-    [Header("Role Button Settings")]
-
-    [SerializeField]
-    private bool useRoleSelection;
-    
-    [SerializeField] private GameObject roleSelection;
-    
-    [SerializeField]
-    private EScreenPos roleSelectionPos = EScreenPos.TopCenter;
-    
-    [SerializeField]
-    private Vector2 roleSelectionOffset = Vector2.zero;
-    
-    [Header("Interactable Display Settings")]
-    
-    [SerializeField]
-    private GameObject interactableDisplay;
-    
-    [SerializeField]
-    private EScreenPos interactableDisplayPos = EScreenPos.BottomCenter;
-    
-    [SerializeField]
-    private Vector2 interactableDisplayOffset = Vector2.zero;
-    
-    [Header("Resource Display Settings")]
-    [SerializeField]
-    private GameObject resourceCountDisplay;
-    
-    [SerializeField]
-    private EScreenPos resourceCountDisplayPos = EScreenPos.TopCenter;
-    
-    [SerializeField]
-    private Vector2 resourceCountDisplayOffset = Vector2.zero;
     
     [Header("Inventory Display Settings")]
 
@@ -151,7 +113,7 @@ public class UIManager : MonoBehaviour
     
     private GameObject _pausePage; //stays
     
-    private GameObject _gameLostPage; //stays
+    private GameObject _gameOverPage; //stays
     
     private GameObject _gameWonPage; //stays
     
@@ -180,9 +142,7 @@ public class UIManager : MonoBehaviour
         
         if (_pausePage == null) _pausePage = transform.GetChild(pausePageChildIndex).gameObject;
         
-        if (_gameLostPage == null) _gameLostPage = transform.GetChild(gameLostChildIndex).gameObject;
-        
-        if (_gameWonPage == null) _gameWonPage = transform.GetChild(gameWonChildIndex).gameObject;
+        if (_gameOverPage == null) _gameOverPage = transform.GetChild(gameLostChildIndex).gameObject;
         
         ToggleCursors(false);
     }
@@ -229,8 +189,6 @@ public class UIManager : MonoBehaviour
                 break;
             case ePlayState.PostSelectionLoad:
                 
-                ToggleCursors(false);
-
                 ToggleOnCall[] toggles = FindObjectsByType<ToggleOnCall>(FindObjectsSortMode.None);
 
                 foreach (ToggleOnCall toggle in toggles)
@@ -240,12 +198,6 @@ public class UIManager : MonoBehaviour
                 
                 PlacePlayerInventories();
                 
-                PlaceInteractableDisplays();
-                
-                PlaceTroopDisplays();
-                
-                PlaceWaveMeterDisplay();
-                
                 break;
                 
                 case ePlayState.Play:
@@ -254,29 +206,20 @@ public class UIManager : MonoBehaviour
             
             case ePlayState.Over:
                 
-                //set correct page
-                if (GameManager.Instance.GameWon)
+                /*//set correct page
+                if (GameManager.Instance.GameOver)
                 {
                     _gameWonPage.SetActive(true);
-                }
-                else if (GameManager.Instance.GameLost)
-                {
-                    _gameLostPage.SetActive(true);
                 }
                 else
                 {
                     Debug.LogError("Game over state called without a win or loss condition");
-                }
+                }*/
                 
                 //ensure other pages are off
                 _mainMenuPage.SetActive(false);
                 
                 _pausePage.SetActive(false);
-                
-                //manage cursors
-                _cursorManager.closedNavigation = false;
-                
-                ToggleCursors(true);
                 
                 break;
         }
@@ -330,68 +273,6 @@ public class UIManager : MonoBehaviour
         ToggleCursors(shouldPause);
     }
     
-    public EPlayerType[] GetPlayerRoleAssignments()
-    {
-        EPlayerType[] prefs = new EPlayerType[GameInputManager.Instance.PlayerInputs.Count];
-        
-        //deciding roles if we use it
-        if (useRoleSelection)
-        {
-            if (GameInputManager.Instance.PlayerInputs.Count == 1)
-            {
-                prefs[0] = _playersRoleSelections[0].GetPlayerPref();
-
-                if (prefs[0] == EPlayerType.Either)
-                {
-                    float weight = UnityEngine.Random.value;
-                    
-                    if (weight < 0.5f)
-                    {
-                        prefs[0] = EPlayerType.Wall;
-                    }
-                    else
-                    {
-                        prefs[0] = EPlayerType.Ground;
-                    }
-                }
-                
-                return prefs;
-            }
-            
-            for (int i = 0; i < GameInputManager.Instance.PlayerInputs.Count; i++)
-            {
-                prefs[i] = _playersRoleSelections[i].GetPlayerPref();
-            }
-        
-            //choose a random choice either players
-            for (int i = 0; i < prefs.Length; i++)
-            {
-                if (prefs[i] == EPlayerType.Either)
-                {
-                    float weight = UnityEngine.Random.value;
-                    
-                    if (weight < 0.5f)
-                    {
-                        prefs[i] = EPlayerType.Wall;
-                    }
-                    else
-                    {
-                        prefs[i] = EPlayerType.Ground;
-                    }
-                }
-            }
-        }
-        //if not, just assing to wall players
-        else
-        {
-            for (int i = 0; i < prefs.Length; i++)
-            {
-                prefs[i] = EPlayerType.Wall;
-            }
-        }
-        
-        return prefs;
-    }
     
     public void UpdatePlayerInventory(PlayerInventory playerInventory, Queue<Sprite> icons)
     {
@@ -429,45 +310,6 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    /*public void ToggleInteractableDisplay(bool on, PlayerInput playerInput, string firstText, string secondText, string thirdText)
-    {
-        int playerIndex = GameInputManager.Instance.PlayerInputs.IndexOf(playerInput);
-        
-        if (on)
-        {
-            _interactQueueDisplays[playerIndex].FirstText = firstText;
-        
-            _interactQueueDisplays[playerIndex].SecondText = secondText;
-        
-            _interactQueueDisplays[playerIndex].ThirdText = thirdText;
-        }
-
-        _interactQueueDisplays[playerIndex].gameObject.SetActive(on);
-    }*/
-    
-    /*public void ToggleTroopDisplay(bool on, PlayerInput playerInput, TroopPlayerController controller = null)
-    {
-        int playerIndex = GameInputManager.Instance.PlayerInputs.IndexOf(playerInput);
-        
-        if (on)
-        {
-            if (controller == null) return;
-            
-            _troopDisplays[playerIndex].gameObject.SetActive(true);
-            
-            _troopDisplays[playerIndex].CorrespondingTroopController = controller;
-        }
-        else
-        {
-            _troopDisplays[playerIndex].gameObject.SetActive(false);
-        }
-    }*/
-    
-    /*public void AddWave(float cycleTime)
-    {
-        _waveMeter.AddIcon(cycleTime);
-    }*/
-    
     private void ToggleCursors(bool on)
     {
         _cursorManager.enabled = on;
@@ -477,11 +319,6 @@ public class UIManager : MonoBehaviour
     private void  PlaceSelectionUI()
     {
         _playerScreenBounds = _cursorManager.PlayersScreenBounds;
-        
-        if (useRoleSelection)
-        {
-            PlaceRoleSelections();
-        }
         
         PlaceReadyButtons();
     }
@@ -512,27 +349,6 @@ public class UIManager : MonoBehaviour
             buttonRect.position = pos;
 
             _playerReadyToggles[i].onValueChanged.AddListener(delegate { CHECK_ALL_READY(); });
-        }
-    }
-
-    private void PlaceRoleSelections()
-    {
-        _playersRoleSelections = new PlayerRoleSelectionInfo[GameInputManager.Instance.PlayerInputs.Count];
-        
-        for (int i = 0; i < GameInputManager.Instance.PlayerInputs.Count; i++)
-        {
-            _playersRoleSelections[i] = Instantiate(roleSelection, _iconHolder).GetComponent<PlayerRoleSelectionInfo>();
-            
-            RectTransform buttonRect = _playersRoleSelections[i].GetComponent<RectTransform>();
-            
-            Vector2 screenMin = _playerScreenBounds[i, 0];
-            Vector2 screenMax = _playerScreenBounds[i, 1];
-            
-            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, roleSelectionPos);
-            
-            pos += roleSelectionOffset;
-            
-            buttonRect.position = pos;
         }
     }
     
@@ -697,7 +513,7 @@ public class UIManager : MonoBehaviour
         
         _pausePage.SetActive(false);
         
-        _gameLostPage.SetActive(false);
+        _gameOverPage.SetActive(false);
         
         _gameWonPage.SetActive(false);
 
