@@ -221,7 +221,7 @@ public class Health : MonoBehaviour
         
         isDead = true;
         
-        if (GameStateManager.Instance.GameStateSO.InstantiationAllowed)
+        if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
         {
             SpawnDeathDrop();
         }

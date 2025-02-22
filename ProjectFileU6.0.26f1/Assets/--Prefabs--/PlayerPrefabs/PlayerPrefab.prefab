@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4444429504467082835
+--- !u!1 &1473856086133792242
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8251974479298474007}
-  - component: {fileID: 4936068187496273113}
-  - component: {fileID: 7048253224327909182}
-  - component: {fileID: 6330710105218605383}
-  - component: {fileID: 9198676602346689936}
+  - component: {fileID: 4645219757220084118}
+  - component: {fileID: 5294271721422011908}
+  - component: {fileID: 7663270140309804355}
+  - component: {fileID: 4773407273220680642}
+  - component: {fileID: 8741779999831270652}
   m_Layer: 0
-  m_Name: PlaytimePlayer
+  m_Name: PlayerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8251974479298474007
+--- !u!4 &4645219757220084118
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4444429504467082835}
+  m_GameObject: {fileID: 1473856086133792242}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 24, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4936068187496273113
+--- !u!114 &5294271721422011908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4444429504467082835}
+  m_GameObject: {fileID: 1473856086133792242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
@@ -142,52 +142,44 @@ MonoBehaviour:
     m_ActionName: 'UI/StickPoint[/XInputControllerWindows/rightStick,/XInputControllerWindows1/rightStick,/XInputControllerWindows2/rightStick]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7048253224327909182
+--- !u!114 &7663270140309804355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4444429504467082835}
+  m_GameObject: {fileID: 1473856086133792242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1286fe90ae3c245c28cc805c02d80783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cineMachineCameraIndex: 0
-  cineMachineBrainIndex: 1
-  wallPlayerIndex: 2
-  groundPlayerIndex: 3
-  troopParentIndex: 4
-  <PlayerInput>k__BackingField: {fileID: 0}
-  <GeneralPlayerControls>k__BackingField: {fileID: 0}
-  <PlayerInventory>k__BackingField: {fileID: 0}
---- !u!114 &6330710105218605383
+  playerAgentPrefab: {fileID: 142390508408771016, guid: 41a9b3240b47dd649a8735dbde909a30, type: 3}
+--- !u!114 &4773407273220680642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4444429504467082835}
+  m_GameObject: {fileID: 1473856086133792242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04150e7725e5b4d758e1a18b154ab7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9198676602346689936
+--- !u!114 &8741779999831270652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4444429504467082835}
+  m_GameObject: {fileID: 1473856086133792242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78bbc34a577237544ac66110f1b68d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryBehaviour: 0
   maxItems: 1

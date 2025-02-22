@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -20,8 +21,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private int pausePageChildIndex = 3;
     
-    [SerializeField]
-    private int gameLostChildIndex = 4;
+    // [SerializeField]
+    // private int gameOverChildIndex = 4;
     
     [Header("General Icon Settings")]
     
@@ -34,48 +35,48 @@ public class UIManager : MonoBehaviour
     private GameObject readyButton;
     
     [SerializeField]
-    private EScreenPos readyButtonPos = EScreenPos.BottomRight;
+    private EScreenPos[] readyButtonLocs =
+    {
+        EScreenPos.TopLeft,
+        EScreenPos.TopRight,
+        EScreenPos.BottomLeft,
+        EScreenPos.BottomRight
+    };
     
     [SerializeField]
-    private Vector2 readyButtonOffset = Vector2.zero;
+    private Vector2[] readyButtonOffsets =
+    {
+        new Vector2(50, -50),
+        new Vector2(-50, -50),
+        new Vector2(50, 50),
+        new Vector2(-50, 50)
+    };
     
     [Header("Inventory Display Settings")]
 
     [SerializeField]
-    private GameObject playerInventoryRail;
+    private GameObject playerInventoryImage;
     
     [SerializeField]
-    private GameObject inventoryItemIcon;
+    private GameObject baseItemImage;
     
     [SerializeField]
-    private EScreenPos inventoryRailPos = EScreenPos.LeftCenter;
+    private EScreenPos[] inventoryRailLocs =
+    {
+        EScreenPos.TopLeft,
+        EScreenPos.TopRight,
+        EScreenPos.BottomLeft,
+        EScreenPos.BottomRight
+    };
     
     [SerializeField]
-    private Vector2 inventoryRailOffset = Vector2.zero;
-    
-    [Header("Troop Display Settings")]
-    
-    [SerializeField]
-    private GameObject troopPlayerDisplay;
-
-    [SerializeField]
-    private EScreenPos troopPlayerDisplayPos = EScreenPos.RightCenter;
-    
-    [SerializeField]
-    private Vector2 troopPlayerDisplayOffset = Vector2.zero;
-    
-    [Header("Wave Meter Display Settings")]
-    
-    [SerializeField]
-    private GameObject waveMeter;
-    
-    [SerializeField]
-    private EScreenPos waveMeterPos = EScreenPos.LeftCenter;
-    
-    [SerializeField]
-    private Vector2 waveMeterOffset = Vector2.zero;
-    
-    
+    private Vector2[] inventoryRailOffsets =
+    {
+        new Vector2(50, -50),
+        new Vector2(-50, -50),
+        new Vector2(50, 50),
+        new Vector2(-50, 50)
+    };
     
     //Management
     private CursorManager _cursorManager; //stays
@@ -89,17 +90,7 @@ public class UIManager : MonoBehaviour
     
     //prefabs and UI elements
     
-    private PlayerRoleSelectionInfo[] _playersRoleSelections;// gets destroyed
-     
     private Toggle[] _playerReadyToggles;// gets destroyed
-    
-    /*private ResourceCount[] _resourceCountDisplays;// gets destroyed
-    
-    private ImageTextInfo[] _interactQueueDisplays;// gets destroyed
-    
-    private IconMeter _waveMeter; // gets destroyed
-    
-    private CooldownDisplayer[] _troopDisplays;// gets destroyed*/
     
     //Rect and screen info
     private RectTransform _canvasRectTransform; //stays
@@ -113,9 +104,7 @@ public class UIManager : MonoBehaviour
     
     private GameObject _pausePage; //stays
     
-    private GameObject _gameOverPage; //stays
-    
-    private GameObject _gameWonPage; //stays
+    // private GameObject _gameOverPage; //stays
     
     void Awake()
     {
@@ -130,6 +119,7 @@ public class UIManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         
+        //getting refs if not set
         if (_cursorManager == null) _cursorManager = GetComponent<CursorManager>();
         
         if (_canvasRectTransform == null) _canvasRectTransform = GetComponent<RectTransform>();
@@ -142,7 +132,40 @@ public class UIManager : MonoBehaviour
         
         if (_pausePage == null) _pausePage = transform.GetChild(pausePageChildIndex).gameObject;
         
-        if (_gameOverPage == null) _gameOverPage = transform.GetChild(gameLostChildIndex).gameObject;
+        // if (_gameOverPage == null) _gameOverPage = transform.GetChild(gameOverChildIndex).gameObject;
+        
+        //setting locs and offsets to default if not length of 4
+        if (readyButtonLocs.Length != 4) readyButtonLocs = new[]
+        {
+            EScreenPos.TopLeft,
+            EScreenPos.TopRight,
+            EScreenPos.BottomLeft,
+            EScreenPos.BottomRight
+        };
+        
+        if (readyButtonOffsets.Length != 4) readyButtonOffsets = new[]
+        {
+            new Vector2(50, -50),
+            new Vector2(-50, -50),
+            new Vector2(50, 50),
+            new Vector2(-50, 50)
+        };
+        
+        if (inventoryRailLocs.Length != 4) inventoryRailLocs = new[]
+        {
+            EScreenPos.TopLeft,
+            EScreenPos.TopRight,
+            EScreenPos.BottomLeft,
+            EScreenPos.BottomRight
+        };
+        
+        if (inventoryRailOffsets.Length != 4) inventoryRailOffsets = new[]
+        {
+            new Vector2(100, -100),
+            new Vector2(-100, -100),
+            new Vector2(100, 100),
+            new Vector2(-100, 100)
+        };
         
         ToggleCursors(false);
     }
@@ -163,22 +186,28 @@ public class UIManager : MonoBehaviour
 
     private void OnStateChange(ePlayState state)
     {
+        //want closed nav in preplay selection state, else open
+        _cursorManager.ClosedNavigation = state == ePlayState.PrePlaySelection;
+        
         switch (state)
         {
-
-            case ePlayState.NotInGame:
+            case ePlayState.NonGameMenu:
 
                 _mainMenuPage.SetActive(true);
                 
                 _levelSelectPage.SetActive(false);
                 
+                _pausePage.SetActive(false);
+                
                 break;
 
-            case ePlayState.InputDetection:
+            case ePlayState.PregameInputDetection:
                 
                 _mainMenuPage.SetActive(false);
                 
                 _levelSelectPage.SetActive(false);
+                
+                _pausePage.SetActive(false);
 
                 break;
 
@@ -196,11 +225,11 @@ public class UIManager : MonoBehaviour
                     toggle.ToggleIfType(EToggleType.SelectionPhaseButton, EToggleBehaviour.TurnOff);
                 }
                 
-                PlacePlayerInventories();
-                
                 break;
                 
                 case ePlayState.Play:
+                
+                PlacePlayerInventories();    
                 
                 break;
             
@@ -219,6 +248,8 @@ public class UIManager : MonoBehaviour
                 //ensure other pages are off
                 _mainMenuPage.SetActive(false);
                 
+                _levelSelectPage.SetActive(false);
+                
                 _pausePage.SetActive(false);
                 
                 break;
@@ -227,34 +258,34 @@ public class UIManager : MonoBehaviour
     
     private void OnPause(bool shouldPause)
     {
-        //managing visibility of pause page in states that allow it (see general player controls)
+        //managing visibility of pause page in states that allow it
         switch (GameStateManager.Instance.GameStateSO.CurrentPlayState)
         {
             //non pause state
-            case ePlayState.NotInGame:
-                return;
+            case ePlayState.NonGameMenu:
+                break;
             
-            //normal show
-            case ePlayState.InputDetection:
+            case ePlayState.PregameInputDetection:
                 
                 _pausePage.SetActive( shouldPause );
                 
                 break;
             
-            //showing menu but leaving constraints during selection
             case ePlayState.PrePlaySelection:
+                
+                //in this state, closed nav is true, but we want to open it up on pause and close on unpause
+                _cursorManager.ClosedNavigation = !shouldPause;
                 
                 _pausePage.SetActive( shouldPause );
                 
-                _cursorManager.closedNavigation = true;
-            
+                //don't want to allow confine change in this state
                 return;
             
             //non pause state
             case ePlayState.PostSelectionLoad:
-                return;
+                
+                break;
             
-            //normal show
             case ePlayState.Play:
                 
                 _pausePage.SetActive( shouldPause );
@@ -263,32 +294,8 @@ public class UIManager : MonoBehaviour
             
             //non pause state
             case ePlayState.Over:
-                return;
-        }
-        
-        //this allows all cursors to navigate the pause menu when paused, but not if in selection
-        _cursorManager.closedNavigation = !shouldPause;
-        
-        //otherwise, if it's enables and needs to go off, or vice versa, we need to toggle it
-        ToggleCursors(shouldPause);
-    }
-    
-    
-    public void UpdatePlayerInventory(PlayerInventory playerInventory, Queue<Sprite> icons)
-    {
-        //clear all children of corresponding rail and fill with new icons
-        GameObject rail = _playerRails[playerInventory];
-        
-        foreach (Transform child in rail.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        
-        foreach (Sprite icon in icons)
-        {
-            GameObject iconGO = Instantiate(inventoryItemIcon, rail.transform);
-            
-            iconGO.GetComponent<Image>().sprite = icon;
+                
+                break;
         }
     }
     
@@ -304,7 +311,7 @@ public class UIManager : MonoBehaviour
         
         foreach (Sprite icon in icons)
         {
-            GameObject iconGO = Instantiate(inventoryItemIcon, rail.transform);
+            GameObject iconGO = Instantiate(baseItemImage, rail.transform);
             
             iconGO.GetComponent<Image>().sprite = icon;
         }
@@ -318,7 +325,7 @@ public class UIManager : MonoBehaviour
     //bounds array should be set from input manager calling cursor refresh on join... make sure not race condition
     private void  PlaceSelectionUI()
     {
-        _playerScreenBounds = _cursorManager.PlayersScreenBounds;
+        _playerScreenBounds = _cursorManager.OpenNavBounds;
         
         PlaceReadyButtons();
     }
@@ -342,38 +349,17 @@ public class UIManager : MonoBehaviour
             Vector2 screenMin = _playerScreenBounds[i, 0];
             Vector2 screenMax = _playerScreenBounds[i, 1];
             
-            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, readyButtonPos);
+            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, readyButtonLocs[i]);
             
-            pos += readyButtonOffset;
+            Vector2 offset = readyButtonOffsets[i];
+            
+            pos += offset;
             
             buttonRect.position = pos;
 
             _playerReadyToggles[i].onValueChanged.AddListener(delegate { CHECK_ALL_READY(); });
         }
     }
-    
-    /*private void PlaceSkullCountDisplays()
-    {
-        _resourceCountDisplays = new ResourceCount[GameInputManager.Instance.PlayerInputs.Count];
-        
-        for (int i = 0; i < GameInputManager.Instance.PlayerInputs.Count; i++)
-        {
-            _resourceCountDisplays[i] = Instantiate(resourceCountDisplay, _iconHolder).GetComponent<ResourceCount>();
-            
-            RectTransform buttonRect = _resourceCountDisplays[i].GetComponent<RectTransform>();
-            
-            Vector2 screenMin = _playerScreenBounds[i, 0];
-            Vector2 screenMax = _playerScreenBounds[i, 1];
-            
-            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, resourceCountDisplayPos);
-            
-            pos += resourceCountDisplayOffset;
-            
-            buttonRect.position = pos;
-        }
-        
-        UPDATE_RESOURCE_COUNTS();
-    }*/
     
     private void PlacePlayerInventories()
     {
@@ -386,16 +372,18 @@ public class UIManager : MonoBehaviour
             PlayerInputInfo info = players[i].GetComponent<PlayerInputInfo>();
             
             
-            GameObject playerRail = Instantiate(playerInventoryRail, _iconHolder);
+            GameObject playerRail = Instantiate(this.playerInventoryImage, _iconHolder);
                 
             RectTransform buttonRect = playerRail.GetComponent<RectTransform>();
             
             Vector2 screenMin = _playerScreenBounds[i, 0];
             Vector2 screenMax = _playerScreenBounds[i, 1];
             
-            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, inventoryRailPos);
+            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, inventoryRailLocs[i]);
             
-            pos += inventoryRailOffset;
+            Vector2 offset = inventoryRailOffsets[i];
+            
+            pos += offset;
             
             buttonRect.position = pos;
 
@@ -403,101 +391,6 @@ public class UIManager : MonoBehaviour
             
             _playerRails.Add(playerInventory, playerRail);
         }
-    }
-    
-    //we turn them off to start, will get called to be turned on when needed
-    private void PlaceInteractableDisplays()
-    {
-        /*_interactQueueDisplays = new ImageTextInfo[GameInputManager.Instance.PlayerInputs.Count];
-        
-        for (int i = 0; i < GameInputManager.Instance.PlayerInputs.Count; i++)
-        {
-            _interactQueueDisplays[i] = Instantiate(interactableDisplay, _iconHolder).GetComponent<ImageTextInfo>();
-            
-            RectTransform buttonRect = _interactQueueDisplays[i].GetComponent<RectTransform>();
-            
-            Vector2 screenMin = _playerScreenBounds[i, 0];
-            Vector2 screenMax = _playerScreenBounds[i, 1];
-            
-            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, interactableDisplayPos);
-            
-            pos += interactableDisplayOffset;
-            
-            buttonRect.position = pos;
-            
-            _interactQueueDisplays[i].gameObject.SetActive(false);
-        }*/
-    }
-    
-    //we turn them off to start, will get called to be turned on when needed
-    private void PlaceTroopDisplays()
-    {
-        /*troopDisplays = new CooldownDisplayer[GameInputManager.Instance.PlayerInputs.Count];
-        
-        for (int i = 0; i < GameInputManager.Instance.PlayerInputs.Count; i++)
-        {
-            _troopDisplays[i] = Instantiate(troopPlayerDisplay, _iconHolder).GetComponent<CooldownDisplayer>();
-            
-            RectTransform buttonRect = _troopDisplays[i].GetComponent<RectTransform>();
-            
-            Vector2 screenMin = _playerScreenBounds[i, 0];
-            Vector2 screenMax = _playerScreenBounds[i, 1];
-            
-            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, troopPlayerDisplayPos);
-            
-            pos += troopPlayerDisplayOffset;
-            
-            buttonRect.position = pos;
-            
-            _troopDisplays[i].gameObject.SetActive(false);
-        }*/
-    }
-    
-    //typical placement function with the exception that there is always just one meter
-    //If single player, we use inspector variables, if multiplayer, place in very center
-    private void PlaceWaveMeterDisplay()
-    {
-        /*_waveMeter = Instantiate(waveMeter, _iconHolder).GetComponent<IconMeter>();
-        
-        RectTransform meterRectTrans = _waveMeter.GetComponent<RectTransform>();
-
-        Vector2 targetPos;
-        
-        if (GameInputManager.Instance.PlayerInputs.Count == 1)
-        {
-            Vector2 screenMin = _playerScreenBounds[0, 0];
-            Vector2 screenMax = _playerScreenBounds[0, 1];
-            
-            targetPos = Utils.DeterminePlacement(screenMin, screenMax, meterRectTrans.rect, waveMeterPos);
-            
-            targetPos += waveMeterOffset;
-        }
-        else
-        {
-            Vector2 screenMin = Vector2.zero;
-
-            Vector2 screenMax = Vector2.zero;
-            
-            //getting the min and max out of all player screens
-            for ( int i = 0; i < _playerScreenBounds.GetLength(0) ; i++)
-            {
-                var playerMin = _playerScreenBounds[i, 0];
-                
-                var playerMax = _playerScreenBounds[i, 1];
-                
-                if (playerMin.x < screenMin.x) screenMin.x = playerMin.x;
-                
-                if (playerMin.y < screenMin.y) screenMin.y = playerMin.y;
-                
-                if (playerMax.x > screenMax.x) screenMax.x = playerMax.x;
-                
-                if (playerMax.y > screenMax.y) screenMax.y = playerMax.y;
-            }
-            
-            targetPos = Utils.DeterminePlacement(screenMin, screenMax, meterRectTrans.rect, EScreenPos.Center);
-        }
-        
-        meterRectTrans.position = targetPos;*/
     }
     
     private void CleanForNewScene()
@@ -511,30 +404,14 @@ public class UIManager : MonoBehaviour
         //turn off all UI
         _mainMenuPage.SetActive(false);
         
+        _levelSelectPage.SetActive(false);
+        
         _pausePage.SetActive(false);
         
-        _gameOverPage.SetActive(false);
+        // _gameOverPage.SetActive(false);
         
-        _gameWonPage.SetActive(false);
-
-        //depending on game state, we may not have data to clear
-        switch (GameStateManager.Instance.GameStateSO.CurrentGameState)
-        {
-            case eGameState.MainMenu:
-                break;
-            case eGameState.Level:
-                
-                CLEAR_DATA();
-                
-                break;
-            case eGameState.Endless:
-                
-                CLEAR_DATA();
-                
-                break;
-        }
-        
-        Cursor.lockState = CursorLockMode.None;
+        //clear necessary data
+        CLEAR_DATA();
         
         Cursor.visible = true;
     }
@@ -569,31 +446,11 @@ public class UIManager : MonoBehaviour
         }
         
         if (_playerRails != null) _playerRails.Clear();
-        
-        _playersRoleSelections = null;
-        
+
         _playerReadyToggles = null;
-        
-        /*_resourceCountDisplays = null;
-        
-        _interactQueueDisplays = null;
-        
-        _troopDisplays = null;
-        
-        _waveMeter = null;*/
         
         _playerScreenBounds = null;
     }
-    
-    /*public void UPDATE_RESOURCE_COUNTS()
-    {
-        if (_resourceCountDisplays.Length < 1) return;
-        
-        for (int i = 0; i < _resourceCountDisplays.Length; i++)
-        {
-            _resourceCountDisplays[i].UpdateSkullCount();
-        }
-    }*/
     
     //cursors managed in arrays. If player input list changes, refreshing cursors makes them update to the new list
     public void REFRESH_CURSORS()

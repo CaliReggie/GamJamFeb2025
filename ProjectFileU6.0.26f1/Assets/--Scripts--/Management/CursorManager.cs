@@ -3,14 +3,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.Serialization;
 
 public class CursorManager : MonoBehaviour
 {
     [Header("Speeds")]
     [SerializeField]
-    private float gamePadCursorSpeed = 1f;
-    
-    //
+    private float gamePadCursorSpeed = 1500f;
     
     [Header("Holders and Prefabs")]
     
@@ -34,8 +33,6 @@ public class CursorManager : MonoBehaviour
     private InputAction[] _uiSelectActions;
     
     //Location and bounds
-    [HideInInspector]
-    public bool closedNavigation;
     
     private Canvas _canvas;
     
@@ -80,8 +77,6 @@ public class CursorManager : MonoBehaviour
                 _cursorHolder.localPosition = Vector3.zero;
             }
         }
-        
-        closedNavigation = true;
     }
     private void OnEnable()
     {
@@ -94,7 +89,9 @@ public class CursorManager : MonoBehaviour
             _cursorTransforms[i] = Instantiate(cursorPrefab, _cursorHolder).GetComponent<RectTransform>();
         }
 
-        PlayersScreenBounds = new Vector2[_playerInputs.Count, 2];
+        OpenNavBounds = new Vector2[_playerInputs.Count, 2];
+        
+        ClosedNavBounds = new Vector2[_playerInputs.Count, 2];
         
         _uiNavigationActions = new InputAction[_playerInputs.Count];
         
@@ -108,26 +105,30 @@ public class CursorManager : MonoBehaviour
         
         for (int i = 0; i < _playerInputs.Count; i++)
         {
-            Camera attachedCamera = _playerInputs[i].GetComponentInChildren<Camera>();
+            //set the open bounds to be the whole canvas
+            OpenNavBounds[i,0] = new Vector2(0, 0);
+                
+            OpenNavBounds[i,1] = new Vector2(_canvasRect.width, _canvasRect.height);
             
-            //if cam/rect is blank, we set the screen bounds to be the whole canvas
-            if (attachedCamera == null)
+            //closed bounds are based on i, making 4 quadrants
+            switch (i)
             {
-                PlayersScreenBounds[i,0] = new Vector2(0, 0);
-                
-                PlayersScreenBounds[i,1] = new Vector2(_canvasRect.width, _canvasRect.height);
-            }
-            else
-            {
-                //getting rect bounds of camera child of player input
-                Rect cameraRect = _playerInputs[i].GetComponentInChildren<Camera>().rect;
-                
-                //calculating screen bounds for each playe
-                PlayersScreenBounds[i,0] = new Vector2(cameraRect.xMin * _canvasRect.width,
-                    cameraRect.yMin * _canvasRect.height);
-                
-                PlayersScreenBounds[i,1] = new Vector2(cameraRect.xMax * _canvasRect.width,
-                    cameraRect.yMax * _canvasRect.height);
+                case 0:
+                    ClosedNavBounds[i,0] = new Vector2(0, _canvasRect.height / 2);
+                    ClosedNavBounds[i,1] = new Vector2(_canvasRect.width / 2, _canvasRect.height);
+                    break;
+                case 1:
+                    ClosedNavBounds[i,0] = new Vector2(_canvasRect.width / 2, _canvasRect.height / 2);
+                    ClosedNavBounds[i,1] = new Vector2(_canvasRect.width, _canvasRect.height);
+                    break;
+                case 2:
+                    ClosedNavBounds[i,0] = new Vector2(0, 0);
+                    ClosedNavBounds[i,1] = new Vector2(_canvasRect.width / 2, _canvasRect.height / 2);
+                    break;
+                case 3:
+                    ClosedNavBounds[i,0] = new Vector2(_canvasRect.width / 2, 0);
+                    ClosedNavBounds[i,1] = new Vector2(_canvasRect.width, _canvasRect.height / 2);
+                    break;
             }
             
             // if the scheme of correspending input is keyboard, we set the action to read to be "Point"
@@ -149,8 +150,8 @@ public class CursorManager : MonoBehaviour
                  if (_cursorTransforms[i] != null)
                  {
                      //placing in center of players screen bounds means warping pos for keyboard
-                     Vector2 screenPos = PlayersScreenBounds[i,0] + 
-                                         (PlayersScreenBounds[i,1] - PlayersScreenBounds[i,0]) / 2;
+                     Vector2 screenPos = OpenNavBounds[i,0] + 
+                                         (OpenNavBounds[i,1] - OpenNavBounds[i,0]) / 2;
                      
                      _virtualMice[i].WarpCursorPosition(screenPos);
                      
@@ -183,8 +184,8 @@ public class CursorManager : MonoBehaviour
                 if (_cursorTransforms[i] != null)
                 {
                     //placing in center of players screen bounds means changing input state for gamepad
-                    Vector2 screenPos = PlayersScreenBounds[i,0] + 
-                                        (PlayersScreenBounds[i,1] - PlayersScreenBounds[i,0]) / 2;
+                    Vector2 screenPos = OpenNavBounds[i,0] + 
+                                        (OpenNavBounds[i,1] - OpenNavBounds[i,0]) / 2;
                     
                     InputState.Change(_virtualMice[i].position, screenPos);
                     
@@ -200,8 +201,6 @@ public class CursorManager : MonoBehaviour
             _uiSelectActions[i] = _playerInputs[i].actions["Click"];
             _uiSelectActions[i].Enable();
         }
-
-        Cursor.lockState = CursorLockMode.Confined;
         
         InputSystem.onAfterUpdate += UpdateCursors;
     }
@@ -245,8 +244,6 @@ public class CursorManager : MonoBehaviour
                 _uiSelectActions[i].Disable();
             }
         }
-        
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void UpdateCursors()
@@ -269,15 +266,17 @@ public class CursorManager : MonoBehaviour
 
                 Vector2 targetPos = realMousePos;
                 
-                //if navigation is closed, we do specific screen bounds by player, otherwise we use the whole canvas
-                if (closedNavigation)
+                //don't want to be clamping PC mouse if paused
+                if (!GameStateManager.Instance.IsPaused)
                 {
-                    targetPos = ClampedByBounds(targetPos, PlayersScreenBounds[i,0], PlayersScreenBounds[i,1]);
-                }
-                else
-                {
-                    targetPos = ClampedByBounds(targetPos, new Vector2(0, 0),
-                        new Vector2(_canvasRect.width, _canvasRect.height));
+                    if (ClosedNavigation)
+                    {
+                        targetPos = ClampedByBounds(targetPos, ClosedNavBounds[i,0], ClosedNavBounds[i,1]);
+                    }
+                    else
+                    {
+                        targetPos = ClampedByBounds(targetPos, OpenNavBounds[i,0], OpenNavBounds[i,1]);
+                    }
                 }
 
                 if (realMousePos != targetPos)
@@ -306,14 +305,13 @@ public class CursorManager : MonoBehaviour
                 
                 newPos = currentPos + targetMoveDelta;
                 
-                if (closedNavigation)
+                if (ClosedNavigation)
                 {
-                    newPos = ClampedByBounds(newPos, PlayersScreenBounds[i,0], PlayersScreenBounds[i,1]);
+                    newPos = ClampedByBounds(newPos, ClosedNavBounds[i,0], ClosedNavBounds[i,1]);
                 }
                 else
                 {
-                    newPos = ClampedByBounds(newPos, new Vector2(0,0),
-                        new Vector2(_canvasRect.width, _canvasRect.height));
+                    newPos = ClampedByBounds(newPos, OpenNavBounds[i,0], OpenNavBounds[i,1]);
                 }
                 
                 Vector2 deltaStickValue = newPos - currentPos;
@@ -372,5 +370,9 @@ public class CursorManager : MonoBehaviour
         _cursorTransforms[i].anchoredPosition = anchoredPos;
     }
     
-    public Vector2[,] PlayersScreenBounds { get; private set; }
+    public Vector2[,] OpenNavBounds { get; private set; }
+    
+    public Vector2[,] ClosedNavBounds { get; private set; }
+    
+    public bool ClosedNavigation { get; set; }
 }

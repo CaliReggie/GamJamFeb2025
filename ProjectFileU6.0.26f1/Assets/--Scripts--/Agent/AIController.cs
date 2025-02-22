@@ -51,21 +51,9 @@ public class AIController : MonoBehaviour
     [SerializeField]
     private bool canChangeTargetAfterTargeting = true;
     
-    [Range(2.5f,10)]
+    [Range(1,10)]
     [SerializeField]
-    private float checkChangeTargetFrequency = 2.5f;
-    
-    [Header("Target Preference Settings")]
-    
-    [Tooltip("When deciding enemies to attack, along with other factors like team, distance, heal ability, etc.," +
-             "if this is selected, the troop will have a considerably higher preference for a defense position." +
-             "Currently, no effect unless team is enemy AI.")]
-    [SerializeField]
-    private bool prefersDefensePositions;
-    
-    [Tooltip("If checked, troop is guaranteed to choose priority targets when in range.")]
-    [SerializeField]
-    private bool guaranteePreferredTargeting;
+    private float checkChangeTargetFrequency = 2f;
     
     [Header("Movement Settings")]
     
@@ -83,11 +71,11 @@ public class AIController : MonoBehaviour
     [Tooltip("How spread around the target should ranged attack positions be?")]
     [SerializeField]
     [Range(0,180)]
-    private float rangedEngagePositionArc = 35f;
+    private float rangedEngagePositionArc = 15f;
     
     [Tooltip("How much random distance in any direction is added to the ranged attack position")]
     [SerializeField]
-    private float rangedAttackPosVariance = 3f;
+    private float rangedAttackPosVariance;
     
     [Tooltip("How close to the target ranged attack location will this AI attack? Recommended to increase this along" +
              " with variance")]
@@ -103,7 +91,7 @@ public class AIController : MonoBehaviour
     
     [Tooltip("How close to the target melee range will this AI attack? Melee range is set in AttackInfoSO")]
     [SerializeField]
-    private float meleeEngagePosLeniency = 0.75f;
+    private float meleeEngagePosLeniency = 1f;
     
     
     //Dynamic
@@ -126,7 +114,7 @@ public class AIController : MonoBehaviour
 
     private int _currentAttackIndex;
 
-    //Agent
+    //PlayerAgent
     private NavMeshAgent _navMeshAgent;
     
     //Animation
@@ -219,17 +207,6 @@ public class AIController : MonoBehaviour
 
     void Start()
     {
-        /*troopParentInfo = GetComponentInParent<TroopParentInfo>();
-        
-        if (troopParentInfo == null)
-        {
-            Debug.LogError("No TroopParentInfo found in parent of " + gameObject.name);
-            
-            Destroy(gameObject);
-            
-            return;
-        }*/
-        
         //anims
         _idleHash = Animator.StringToHash("isIdle");
         
@@ -325,16 +302,7 @@ public class AIController : MonoBehaviour
                 case ETeam.EnemyAI:
 
                     relevantTeams = new[] { ETeam.DefensePosition, ETeam.FriendlyAI, ETeam.TroopPlayer };
-
-                    //ability to add prefers player at some point
-                    if (prefersDefensePositions)
-                    {
-                        priorityTeams = new[] {ETeam.DefensePosition};
-                    }
-                    else
-                    {
-                        priorityTeams = Array.Empty<ETeam>();
-                    }
+                    
                     
                     break;
                 default:
@@ -568,12 +536,6 @@ public class AIController : MonoBehaviour
             
             if (priorityTeams.Contains(otherHealth.Team))
             {
-                if (guaranteePreferredTargeting)
-                {
-                    _currentTargetHealth = otherHealth;
-                    
-                    return true;
-                }
                 
                 currentScore = 2f;
                 
@@ -732,22 +694,6 @@ public class AIController : MonoBehaviour
         
         Vector3 targetDirection = targetPos - transform.position;
         
-        
-        //making teams engage from directions that make sense (not in enemy lines)
-        switch (_health.Team)
-            {
-                case ETeam.FriendlyAI:
-                    
-                    targetDirection = GameManager.Instance.FriendlySpawnDirection;
-                    
-                    break;
-                case ETeam.EnemyAI:
-                    
-                    targetDirection = GameManager.Instance.EnemySpawnDirection;
-                    
-                    break;
-            }
-        
         if (_allAbilitiesData[_currentAttackIndex].Range >= rangeToBeConsideredMelee)
         {
             
@@ -787,68 +733,6 @@ public class AIController : MonoBehaviour
         }
         return false;
     }
-
-    // bool ChooseDamageAbility()
-    // {
-    //      if (_canDamage)
-    //      {
-    //          for (int i = 0; i < _allAbilitiesData.Length; i++)
-    //          {
-    //              //if has it, is ready, and does damage
-    //              if (_allAbilitiesData[i].HasAbility &&
-    //                  Time.time >= _allAbilitiesData[i].TimeReady &&
-    //                  !_allAbilitiesData[i].CanHeal)
-    //              {
-    //                  _currentAttackIndex = i;
-    //                  return true;
-    //              }
-    //          }
-    //      }
-    //     
-    //      _currentAttackIndex = -1;
-    //     
-    //      return false;
-    // }
-    //
-    // // bool ChooseHealAbility()
-    // // {
-    // //     if (_canHeal)
-    // //     {
-    // //         for (int i = 0; i < _allAbilitiesData.Length; i++)
-    // //         {
-    // //             //if has it, is ready, and can heal
-    // //             if (_allAbilitiesData[i].HasAbility &&
-    // //                 Time.time >= _allAbilitiesData[i].TimeReady &&
-    // //                 _allAbilitiesData[i].CanHeal)
-    // //             {
-    // //                 _currentAttackIndex = i;
-    // //                 return true;
-    //             }
-    //         }
-    //     }
-    //     
-    //     _currentAttackIndex = -1;
-    //     
-    //     return false;
-    // }
-    //
-    // bool ForceChooseAbilityAndEngageTarget(Health target)
-    // {
-    //     if (target == null) return false;
-    //     
-    //     _currentTargetHealth = target;
-    //     
-    //     if (Choose____Ability())
-    //     {
-    //         if (ChooseEngageLocation())
-    //         {
-    //             if (LostTarget) return false;
-    //             
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
     
     #endregion
 

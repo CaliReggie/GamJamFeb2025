@@ -11,15 +11,11 @@ public class GeneralPlayerControls : MonoBehaviour
     
     private InputAction _interactAction;
     
-    public InputAction InteractAction { get; private set; }
-    
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         
         _pauseAction = _playerInput.actions["Cancel"];
-        
-        InteractAction = _playerInput.actions["Interact"];
     }
     
     void OnEnable()
@@ -45,7 +41,7 @@ public class GeneralPlayerControls : MonoBehaviour
             //can't pause when not in game (main menu), loading, or over
             switch (GameStateManager.Instance.GameStateSO.CurrentPlayState)
             {
-                case ePlayState.InputDetection:
+                case ePlayState.PregameInputDetection:
                     GameStateManager.Instance.Pause(shouldPause);
                     break;
                 case ePlayState.PrePlaySelection:

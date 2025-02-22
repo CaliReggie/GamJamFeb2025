@@ -7,35 +7,35 @@ using UnityEngine.Serialization;
 public enum EPickupType
 {
     None,
-    Health,
-    Resource
+    //add here
 }
 public class Pickup : MonoBehaviour
 {
     [Header("Pickup Type Selection")]
     [SerializeField] private EPickupType pickupType;
     
-    [Header("Pickup Behaviour Settings")]
+    [Header("Team Settings")]
+    
     [SerializeField] private ETeam[] teamsToAffect;
+    
+    [Header("Pickup Effects - Optional")]
     
     [SerializeField] private GameObject pickupEffect;
     
     [SerializeField] private GameObject fullyDecayedEffect;
     
     [Header("Pickup Lifetime Settings")]
-    [Range(1,60)][SerializeField] private float lifetime = 10f;
+    
+    [SerializeField]
+    private bool decaysOverTime = true;
+    
+    [Range(1,60)][SerializeField] private float lifetime = 15f;
 
-    [Tooltip("How many times the pickup will decay over its lifetime")]
-    [Range(0, 120)] [SerializeField] private int decayIntervals = 5;
+    [Tooltip("How many times the pickup will shrink over its lifetime")]
+    [Range(0, 120)] [SerializeField] private int decayIntervals = 30;
     
-    [Tooltip("How resistant the pickup is to decaying each time (0 = no resistance, 1 = full resistance)")]
-    [Range(0,1)] [SerializeField] private float decayResistance = 0.9f;
-    
-    [Header("Selection Specific Settings")]
-    
-    [SerializeField] private int resourceValue = 1;
-    
-    [SerializeField] private int healValue = 1;
+    [Tooltip("How resistant the pickup is to shrinking each time (0 = no resistance, 1 = full resistance)")]
+    [Range(0,1)] [SerializeField] private float decayResistance = 0.95f;
     
     //Dynamic
     
@@ -44,12 +44,7 @@ public class Pickup : MonoBehaviour
 
     void Start()
     {
-        if (pickupType == EPickupType.None)
-        {
-            Debug.LogError("Pickup Type not set for " + gameObject.name);
-            
-            Destroy(gameObject);
-        }
+        //PICKUP TYPE SPECIFIC PRE SETTINGS HERE
         
         if (teamsToAffect.Length == 0)
         {
@@ -60,11 +55,14 @@ public class Pickup : MonoBehaviour
         
         _intervalTime = lifetime / decayIntervals;
         
-        StartCoroutine(Decay());
+        if (decaysOverTime)
+        {
+            StartCoroutine(Decay());
+        }
     }
     
     //slowly shrink the pickup until it is destroyed by factor of decayIntervals
-    IEnumerator Decay()
+    private IEnumerator Decay()
     {
         for (int i = 0; i < decayIntervals; i++)
         {
@@ -79,29 +77,17 @@ public class Pickup : MonoBehaviour
     }
     
     
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         Health health = other.GetComponent<Health>();
         
         //if health is null or the team of the health object is not in the list of teams to affect, return
         if (health == null || !teamsToAffect.Contains(health.Team)) return;
 
-        switch (pickupType)
-        {
-            case EPickupType.Health:
-                
-                health.TryHeal(ETeam.Neutral, healValue);
-                
-                break;
-            
-            case EPickupType.Resource:
-
-                GameManager.Instance.AddResource(resourceValue);
-                
-                break;
-        }
         
-        if (GameStateManager.Instance.GameStateSO.InstantiationAllowed)
+        //DO SOMETHING HERE
+        
+        if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
         {
             SpawnEndEffect(true);
         }
@@ -109,7 +95,7 @@ public class Pickup : MonoBehaviour
         Destroy(gameObject);
     }
     
-    void SpawnEndEffect(bool fromPickedUp)
+    private void SpawnEndEffect(bool fromPickedUp)
     {
         if (fromPickedUp && pickupEffect != null)
         {

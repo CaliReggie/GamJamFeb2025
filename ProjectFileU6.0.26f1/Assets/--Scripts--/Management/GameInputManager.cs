@@ -6,40 +6,13 @@ using Unity.Cinemachine;
 */
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class GameInputManager : MonoBehaviour
 {
     public static GameInputManager Instance;
     
-    [Header("Debug")]
-    [SerializeField]
-    private bool debugInfo;
-    
-    [Header("Player Prefabs")]
-    
-    [SerializeField]
-    private GameObject playtimePlayerPrefab; //set in inspector
-    
-    [SerializeField]
-    private GameObject uiPlayerPrefab; //set in inspector
-    
-    [Header("Input To Cinemachine Camera Matching")]
-    
-    /*[SerializeField]
-    private OutputChannels[] playerIndexCamChannels; //set in inspector*/
-    
-    
-    //Camera and player placements
-    
-    private SpawnPosition[] _spawns; //gets updated
-    
-    private Transform _wallSpawn; // gets updated
-    
-    private Transform _groundSpawn; //gets updated
-    
-    //Player role info
-    
-    private EPlayerType[] _playerRoleDecisions; //gets updated
+    //Dynamic
     
     //Management
     
@@ -85,15 +58,10 @@ public class GameInputManager : MonoBehaviour
     {
         switch (state)
         {
-            case ePlayState.NotInGame:
-
-                ConfigureMenuUIInputManagement();
+            case ePlayState.NonGameMenu:
+            case ePlayState.PregameInputDetection:
                 
-                break;
-
-            case ePlayState.InputDetection:
-                
-                ConfigurePlaytimeInputManagement();
+                InitializeInputManagement();
 
                 break;
             
@@ -101,9 +69,6 @@ public class GameInputManager : MonoBehaviour
                 break;
             
             case ePlayState.PostSelectionLoad:
-                
-                //determine spawns after we have all players
-                DetermineSpawns();
                 
                 break;
             case ePlayState.Play:
@@ -116,11 +81,6 @@ public class GameInputManager : MonoBehaviour
                 break;
         }
     }
-    
-    /*public OutputChannels GetPlayerChannelFromPlayerInput(PlayerInput playerInput)
-    {
-        return playerIndexCamChannels[playerInput.playerIndex];
-    }*/
     
     private void OnPlayerJoined(PlayerInput playerInput)
     {
@@ -136,64 +96,18 @@ public class GameInputManager : MonoBehaviour
             return;
         }
         
+        //add player input to list
+        PlayerInputs.Add(playerInput);
+        
+        UIManager.Instance.REFRESH_CURSORS();
+        
         switch (GameStateManager.Instance.GameStateSO.CurrentGameState)
         {
-            //if in main menu, we just add the player input to the list for cursor control
             case eGameState.MainMenu:
-                
-                PlayerInputs.Add(playerInput);
-
-                UIManager.Instance.REFRESH_CURSORS();
                 
                 break;
             
-            case eGameState.Level:
-            case eGameState.Endless:
-                //things to turn off on first input received
-                if (PlayerInputs.Count == 0)
-                {
-                    ToggleOnCall[] toggles = FindObjectsByType<ToggleOnCall>(FindObjectsSortMode.None);
-                    
-                    //turning off the main cam in the toggles
-                    foreach (ToggleOnCall toggleObj in toggles)
-                    {
-                        toggleObj.ToggleIfType(EToggleType.MainCam, EToggleBehaviour.TurnOff);
-                    }
-                }
-                
-                //add player input to list
-                PlayerInputs.Add(playerInput);
-                
-                //getting input info to set up the player
-                PlayerInputInfo playerInfo = playerInput.GetComponent<PlayerInputInfo>();
-                
-                /*//input index management
-                CinemachineInputAxisController camNpt = playerInfo.GetComponentInChildren<CinemachineInputAxisController>();
-                camNpt.PlayerIndex = playerInput.playerIndex;
-                
-                //camera channel management
-                CinemachineBrain cinBrain = playerInfo.GetComponentInChildren<CinemachineBrain>();
-                cinBrain.ChannelMask = playerIndexCamChannels[playerInput.playerIndex];*/
-                
-                //place camera gameobject in main cam spawn 
-                Transform targetLoc = GameManager.Instance.MainCamSpawn;
-                
-                /*cinBrain.gameObject.transform.SetPositionAndRotation(targetLoc.position, targetLoc.rotation);
-                
-                CinemachineCamera cinCam = playerInfo.GetComponentInChildren<CinemachineCamera>();
-                cinCam.OutputChannel = playerIndexCamChannels[playerInput.playerIndex];*/
-                
-                //toggling children off after they load in
-                foreach (Transform child in playerInfo.transform)
-                {
-                    child.gameObject.SetActive(false);
-                }
-                
-                /*//just turning back on the cam/brain and letting it set itself while waiting for play
-                cinBrain.gameObject.SetActive(true);*/
-                
-                //ui cursor refresh on join
-                UIManager.Instance.REFRESH_CURSORS();
+            case eGameState.InGame:
                 
                 //if all inputs are in, set to selection state
                 if (PlayerInputs.Count == _maxPlayers)
@@ -203,94 +117,31 @@ public class GameInputManager : MonoBehaviour
                 
                 break;
         }
-        
-        if (!debugInfo) return;
-        Debug.Log("Player " + playerInput.playerIndex + " joined");
     }
     
-    private void ConfigureMenuUIInputManagement()
+    private void InitializeInputManagement()
     {
         //getting target player info
         _maxPlayers = GameStateManager.Instance.GameStateSO.TargetPlayerCount;
         
         PlayerInputs = new List<PlayerInput>();
         
-        //setting input manager settings
-        _playerInputManager.playerPrefab = uiPlayerPrefab;
-
-        _playerInputManager.splitScreen = false;
-        
-        _playerInputManager.EnableJoining();
-    }
-    
-    private void ConfigurePlaytimeInputManagement()
-    {
-        //same as above, new prefab
-        _maxPlayers = GameStateManager.Instance.GameStateSO.TargetPlayerCount;
-        
-        PlayerInputs = new List<PlayerInput>();
-        
-        _playerInputManager.playerPrefab = playtimePlayerPrefab;
-
-        _playerInputManager.splitScreen = true;
-
         _playerInputManager.EnableJoining();
     }
     
     private void PlayerInputsOnPlay()
     {
-        foreach (PlayerInput player in PlayerInputs)
-        {
-            //player input info holds index info for what we need to control
-            PlayerInputInfo playerInfo = player.GetComponent<PlayerInputInfo>();
-            
-            //probable that player type has been switched in the main ui manager, let's make sure it's set
-            playerInfo.SetPlayerTypeAndIndex(_playerRoleDecisions[player.playerIndex]);
-            
-            Transform pTrans = player.transform;
-            
-            //turning on the gamebjects that hold the brain and camera
-            pTrans.GetChild(playerInfo.cineMachineCameraIndex).gameObject.SetActive(true);
-            
-            pTrans.GetChild(playerInfo.cineMachineBrainIndex).gameObject.SetActive(true);
-            
-            //turning on the target player
-            GameObject targetPlayer = pTrans.GetChild(playerInfo.TargetGOIndex).gameObject;
-
-            switch (playerInfo.PlayerType)
-            {
-                case EPlayerType.Either:
-                    Debug.LogError("Player still set to either on play");
-                    break;
-                case EPlayerType.Wall:
-                    targetPlayer.transform.SetPositionAndRotation( _wallSpawn.position, _wallSpawn.rotation);
-                    break;
-                case EPlayerType.Ground:
-                    targetPlayer.transform.SetPositionAndRotation( _groundSpawn.position, _groundSpawn.rotation);
-                    break;
-                case EPlayerType.Troop:
-                    Debug.LogError("Player still set to troop on play");
-                    targetPlayer.transform.SetPositionAndRotation( _wallSpawn.position, _wallSpawn.rotation);
-                    break;
-            }
-            
-            targetPlayer.SetActive(true);
-            
-            /*//targeting player with cin cam
-            pTrans.GetChild(playerInfo.cineMachineCameraIndex).GetComponent<CinemachineCamera>().Follow = 
-                targetPlayer.transform;*/
-        }
-    }
-    
-    private void DetermineSpawns()
-    {
-        _spawns = FindObjectsByType<SpawnPosition>(FindObjectsSortMode.None);
+        int currentIndex = 0;
         
-        foreach (SpawnPosition spawn in _spawns)
+        foreach (PlayerInput agent in PlayerInputs)
         {
-            spawn.CheckForSpawnPosition( EPlayerType.Wall, ref _wallSpawn);
+            PlayerInputInfo playerInputInfo = agent.GetComponent<PlayerInputInfo>();
             
-            spawn.CheckForSpawnPosition( EPlayerType.Ground, ref _groundSpawn);
+            Transform targetSpawn = GameManager.Instance.SpawnPoints[currentIndex];
+            
+            playerInputInfo.TogglePlayerAgentGO(true, targetSpawn);
+            
+            currentIndex++;
         }
     }
     

@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44b7d347a34a4db48d3ca97702d4ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GameStateSO>k__BackingField: {fileID: 11400000, guid: d99f7d8cf1d0e6d428b5290526011b04, type: 2}
+  <GameStateSO>k__BackingField: {fileID: 11400000, guid: 70a095965177aa441b9ed63ea64025d3, type: 2}
+  <CurrentSceneInfo>k__BackingField: {fileID: 11400000, guid: fcc40c86343492140b543ac15b7c0cac, type: 2}

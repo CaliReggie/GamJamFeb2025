@@ -6,12 +6,8 @@ public class Teleporter : MonoBehaviour
     private enum ETeleportBehaviour
     {
         JustTeleport,
-        JustSwitchToGround,
-        JustSwitchToWall,
-        TeleportAndSwitchToGround,
-        TeleportAndSwitchToWall,
+        //add more behaviours here
     }
-    
     
     [SerializeField]
     private ETeam[]  teamsToInteractWith;
@@ -47,45 +43,14 @@ public class Teleporter : MonoBehaviour
         
         if (Array.Exists(teamsToInteractWith, team => team == otherHealth.Team))
         {
-            PlayerInputInfo playerInputInfo = other.GetComponentInParent<PlayerInputInfo>();
-            
-            if (playerInputInfo == null) { return; }
-
-            switch (playerInputInfo.PlayerType)
+            switch (teleportBehaviour)
             {
-                case EPlayerType.Wall:
-
-                    switch (teleportBehaviour)
-                    {
-                        case ETeleportBehaviour.JustTeleport:
-                            otherHealth.transform.SetPositionAndRotation(
-                                teleportLocation.position, teleportLocation.rotation);
-                            break;
-                        case ETeleportBehaviour.JustSwitchToGround:
-                            playerInputInfo.SwitchToGroundOrWall(EPlayerType.Ground, otherHealth.transform);
-                            break;
-                        case ETeleportBehaviour.TeleportAndSwitchToGround:
-                            playerInputInfo.SwitchToGroundOrWall(EPlayerType.Ground, teleportLocation);
-                            break;
-                    }
-                    break;
-                
-                case EPlayerType.Ground:
+                case ETeleportBehaviour.JustTeleport:
                     
-                    switch (teleportBehaviour)
-                    {
-                        case ETeleportBehaviour.JustTeleport:
-                            otherHealth.transform.SetPositionAndRotation(
-                                teleportLocation.position, teleportLocation.rotation);
-                            break;
-                        case ETeleportBehaviour.JustSwitchToWall:
-                            playerInputInfo.SwitchToGroundOrWall(EPlayerType.Wall, otherHealth.transform);
-                            break;
-                        case ETeleportBehaviour.TeleportAndSwitchToWall:
-                            playerInputInfo.SwitchToGroundOrWall(EPlayerType.Wall, teleportLocation);
-                            break;
-                    }
+                    other.transform.SetPositionAndRotation(teleportLocation.position, teleportLocation.rotation);
+                    
                     break;
+                //add more behaviours here
             }
         }
     }

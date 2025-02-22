@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 3
-  m_MaxPlayerCount: 2
+  m_MaxPlayerCount: 4
   m_AllowJoining: 0
   m_JoinBehavior: 1
   m_PlayerJoinedEvent:
@@ -75,7 +75,7 @@ MonoBehaviour:
         m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 392368643174621059, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 1473856086133792242, guid: 13ebb55c27f1f074fa917894a5c72998, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1
@@ -97,7 +97,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21b7f8d62059474893a0d589ea86837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugInfo: 0
-  playtimePlayerPrefab: {fileID: 4444429504467082835, guid: dae72fcf4e9e3f84fa29ba083cb00582, type: 3}
-  uiPlayerPrefab: {fileID: 6709700459455123419, guid: 13ebb55c27f1f074fa917894a5c72998, type: 3}
-  playerIndexCamChannels: 01000000020000000400000008000000

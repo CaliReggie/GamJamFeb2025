@@ -9,9 +9,6 @@ public class SceneLoadInfoSO : ScriptableObject
     [Tooltip("The game state that the scene should load with.")]
     [field: SerializeField] public eGameState GameState { get; private set; }
     
-    [Tooltip("The level to load the scene with, if applicable.")]
-    [ field: SerializeField] public int Level { get; private set; }
-    
     [Tooltip("The number of players that the scene will allow.")]
     [field: SerializeField] public int PlayerCount { get; private set; }
     

@@ -47,11 +47,10 @@ public class GameStateManager : MonoBehaviour
         switch (GameStateSO.CurrentGameState)
         {
             case eGameState.MainMenu:
-                CHANGE_PLAY_STATE(ePlayState.NotInGame);
+                CHANGE_PLAY_STATE(ePlayState.NonGameMenu);
                 break;
-            case eGameState.Level:
-            case eGameState.Endless:
-                CHANGE_PLAY_STATE(ePlayState.InputDetection);
+            case eGameState.InGame:
+                CHANGE_PLAY_STATE(ePlayState.PregameInputDetection);
                 break;
         } 
     }
@@ -63,6 +62,35 @@ public class GameStateManager : MonoBehaviour
         IsPaused = shouldPause;
         
         OnPause?.Invoke(shouldPause);
+    }
+    
+    private void SET_SCENE_FROM_INFO(SceneLoadInfoSO info)
+    {
+        if (Instance == null)
+        {
+            Debug.LogError("GameStateManager singleton is null.");
+            return;
+        }
+        
+        if (info == null)
+        {
+            Debug.LogError("Scene info is null. " +
+                           "Please assign a SceneLoadInfoSO object to the info variable.");
+            return;
+        }
+
+        if (info.SceneName == "")
+        {
+            Debug.LogError("Scene name in scene info is empty. " +
+                           "Please assign a Scene Name to the SceneLoadInfoSO object passed in.");
+            return;
+        }
+        
+        GameStateSO.SET_GAME_STATE(info.GameState);
+        
+        GameStateSO.SET_TARGET_PLAYERS(info.PlayerCount);
+        
+        CurrentSceneInfo = info;
     }
     
     public void CHANGE_PLAY_STATE(ePlayState state)
@@ -123,35 +151,4 @@ public class GameStateManager : MonoBehaviour
     }
     
     public bool IsPaused { get; private set; }
-    
-    private void SET_SCENE_FROM_INFO(SceneLoadInfoSO info)
-    {
-        if (Instance == null)
-        {
-            Debug.LogError("GameStateManager singleton is null.");
-            return;
-        }
-        
-        if (info == null)
-        {
-            Debug.LogError("Scene info is null. " +
-                           "Please assign a SceneLoadInfoSO object to the info variable.");
-            return;
-        }
-
-        if (info.SceneName == "")
-        {
-            Debug.LogError("Scene name in scene info is empty. " +
-                           "Please assign a Scene Name to the SceneLoadInfoSO object passed in.");
-            return;
-        }
-        
-        GameStateSO.SET_GAME_STATE(info.GameState);
-        
-        /*GameStateSO.SET_LEVEL(info.Level);*/
-        
-        GameStateSO.SET_TARGET_PLAYERS(info.PlayerCount);
-        
-        CurrentSceneInfo = info;
-    }
 }
