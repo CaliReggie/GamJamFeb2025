@@ -78,9 +78,6 @@ public class UIManager : MonoBehaviour
         new Vector2(-50, 50)
     };
     
-    //Management
-    private CursorManager _cursorManager; //stays
-    
     //private dictionary with PlayerInventory as key and corresponding inventory rail as value
     private Dictionary<PlayerInventory, GameObject> _playerRails; // gets cleared
     
@@ -120,7 +117,7 @@ public class UIManager : MonoBehaviour
         }
         
         //getting refs if not set
-        if (_cursorManager == null) _cursorManager = GetComponent<CursorManager>();
+        if (CursorManager == null) CursorManager = GetComponent<CursorManager>();
         
         if (_canvasRectTransform == null) _canvasRectTransform = GetComponent<RectTransform>();
         
@@ -187,7 +184,7 @@ public class UIManager : MonoBehaviour
     private void OnStateChange(ePlayState state)
     {
         //want closed nav in preplay selection state, else open
-        _cursorManager.ClosedNavigation = state == ePlayState.PrePlaySelection;
+        CursorManager.ClosedNavigation = state == ePlayState.PrePlaySelection;
         
         switch (state)
         {
@@ -274,7 +271,7 @@ public class UIManager : MonoBehaviour
             case ePlayState.PrePlaySelection:
                 
                 //in this state, closed nav is true, but we want to open it up on pause and close on unpause
-                _cursorManager.ClosedNavigation = !shouldPause;
+                CursorManager.ClosedNavigation = !shouldPause;
                 
                 _pausePage.SetActive( shouldPause );
                 
@@ -319,13 +316,13 @@ public class UIManager : MonoBehaviour
     
     private void ToggleCursors(bool on)
     {
-        _cursorManager.enabled = on;
+        CursorManager.enabled = on;
     }
     
     //bounds array should be set from input manager calling cursor refresh on join... make sure not race condition
     private void  PlaceSelectionUI()
     {
-        _playerScreenBounds = _cursorManager.OpenNavBounds;
+        _playerScreenBounds = CursorManager.OpenNavBounds;
         
         PlaceReadyButtons();
     }
@@ -371,8 +368,9 @@ public class UIManager : MonoBehaviour
         {
             PlayerInputInfo info = players[i].GetComponent<PlayerInputInfo>();
             
+            GameObject playerRail = Instantiate(playerInventoryImage, _iconHolder);
             
-            GameObject playerRail = Instantiate(this.playerInventoryImage, _iconHolder);
+            playerRail.GetComponent<Image>().color = GameManager.Instance.PlayerColors[i];
                 
             RectTransform buttonRect = playerRail.GetComponent<RectTransform>();
             
@@ -480,5 +478,5 @@ public class UIManager : MonoBehaviour
         GameStateManager.Instance.QUIT_GAME();
     }
     
-    
+    public CursorManager CursorManager { get; private set; }
 }

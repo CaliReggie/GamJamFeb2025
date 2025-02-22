@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 2412227}
   - component: {fileID: 2412226}
   - component: {fileID: 2412225}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Navground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +490,7 @@ Transform:
   m_GameObject: {fileID: 946388692}
   serializedVersion: 2
   m_LocalRotation: {x: 0.31598538, y: 0.3596048, z: -0.13088542, w: 0.8681629}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 26.8, y: 0, z: 24.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -626,7 +626,7 @@ Transform:
   m_GameObject: {fileID: 1371008970}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -15}
+  m_LocalPosition: {x: 0, y: 0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -719,7 +719,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 24.2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

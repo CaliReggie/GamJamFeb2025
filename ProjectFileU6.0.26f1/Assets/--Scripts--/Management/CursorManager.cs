@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class CursorManager : MonoBehaviour
 {
@@ -44,7 +44,6 @@ public class CursorManager : MonoBehaviour
     private Rect _canvasRect;
     
     //Mice
-    private Mouse[] _virtualMice;
     
     private bool[] _realMice;
     
@@ -87,6 +86,8 @@ public class CursorManager : MonoBehaviour
         for (int i = 0; i < _playerInputs.Count; i++)
         {
             _cursorTransforms[i] = Instantiate(cursorPrefab, _cursorHolder).GetComponent<RectTransform>();
+            
+            _cursorTransforms[i].GetComponent<Image>().color = GameManager.Instance.PlayerColors[i];
         }
 
         OpenNavBounds = new Vector2[_playerInputs.Count, 2];
@@ -97,7 +98,7 @@ public class CursorManager : MonoBehaviour
         
         _uiSelectActions = new InputAction[_playerInputs.Count];
         
-        _virtualMice = new Mouse[_playerInputs.Count];
+        VirtualCursors = new Mouse[_playerInputs.Count];
         
         _realMice = new bool[_playerInputs.Count];
         
@@ -141,7 +142,7 @@ public class CursorManager : MonoBehaviour
                 foreach (InputDevice device in _playerInputs[i].devices)
                 {
                     //storing the mouse in the virtual mice array, it is already added so nothing extra to do
-                    if (device is Mouse) _virtualMice[i] = device as Mouse;
+                    if (device is Mouse) VirtualCursors[i] = device as Mouse;
                     
                     _realMice[i] = true;
                 }
@@ -153,9 +154,9 @@ public class CursorManager : MonoBehaviour
                      Vector2 screenPos = OpenNavBounds[i,0] + 
                                          (OpenNavBounds[i,1] - OpenNavBounds[i,0]) / 2;
                      
-                     _virtualMice[i].WarpCursorPosition(screenPos);
+                     VirtualCursors[i].WarpCursorPosition(screenPos);
                      
-                     InputState.Change(_virtualMice[i].position, screenPos);
+                     InputState.Change(VirtualCursors[i].position, screenPos);
                      
                      AnchorCursor(screenPos, i);
                  }
@@ -167,16 +168,16 @@ public class CursorManager : MonoBehaviour
                 _uiNavigationActions[i] = _playerInputs[i].actions["StickPoint"];
                 _uiNavigationActions[i].Enable();
                 
-                if (_virtualMice[i] == null)
+                if (VirtualCursors[i] == null)
                 {
-                    _virtualMice[i] = (Mouse) InputSystem.AddDevice("VirtualMouse");
+                    VirtualCursors[i] = (Mouse) InputSystem.AddDevice("VirtualMouse");
                 }
-                else if (!_virtualMice[i].added)
+                else if (!VirtualCursors[i].added)
                 {
-                    InputSystem.AddDevice(_virtualMice[i]);
+                    InputSystem.AddDevice(VirtualCursors[i]);
                 }
             
-                InputUser.PerformPairingWithDevice(_virtualMice[i], _playerInputs[i].user);
+                InputUser.PerformPairingWithDevice(VirtualCursors[i], _playerInputs[i].user);
                 
                 _realMice[i] = false;
             
@@ -187,7 +188,7 @@ public class CursorManager : MonoBehaviour
                     Vector2 screenPos = OpenNavBounds[i,0] + 
                                         (OpenNavBounds[i,1] - OpenNavBounds[i,0]) / 2;
                     
-                    InputState.Change(_virtualMice[i].position, screenPos);
+                    InputState.Change(VirtualCursors[i].position, screenPos);
                     
                     AnchorCursor(screenPos, i);
                 }
@@ -219,11 +220,11 @@ public class CursorManager : MonoBehaviour
         }
         
         //clear mice
-        for (int i = 0; i < _virtualMice.Length; i++)
+        for (int i = 0; i < VirtualCursors.Length; i++)
         {
-            if (_virtualMice[i] != null && _realMice[i] == false)
+            if (VirtualCursors[i] != null && _realMice[i] == false)
             {
-                InputSystem.RemoveDevice(_virtualMice[i]);
+                InputSystem.RemoveDevice(VirtualCursors[i]);
             }
         }
         
@@ -250,13 +251,13 @@ public class CursorManager : MonoBehaviour
     {
         for (int i = 0; i < _playerInputs.Count; i++)
         {
-            if (_virtualMice[i] == null || _uiNavigationActions[i] == null)
+            if (VirtualCursors[i] == null || _uiNavigationActions[i] == null)
             {
                 Debug.LogError("Input slot exists with no mouse or navigation action to read");
                 continue;
             }
             
-            Vector2 currentPos = _virtualMice[i].position.ReadValue();
+            Vector2 currentPos = VirtualCursors[i].position.ReadValue();
             
             Vector2 newPos;
             
@@ -285,7 +286,7 @@ public class CursorManager : MonoBehaviour
                     
                     newPos = targetPos + diff.normalized * 10f;
                     
-                    _virtualMice[i].WarpCursorPosition(newPos);
+                    VirtualCursors[i].WarpCursorPosition(newPos);
                 }
                 else
                 {
@@ -294,8 +295,8 @@ public class CursorManager : MonoBehaviour
                 
                 Vector2 delta = newPos - currentPos;
                 
-                InputState.Change(_virtualMice[i].position, newPos);
-                InputState.Change(_virtualMice[i].delta, delta);
+                InputState.Change(VirtualCursors[i].position, newPos);
+                InputState.Change(VirtualCursors[i].delta, delta);
             }
             else if (_playerInputs[i].currentControlScheme == _gamepadName)
             {
@@ -316,8 +317,8 @@ public class CursorManager : MonoBehaviour
                 
                 Vector2 deltaStickValue = newPos - currentPos;
                 
-                InputState.Change(_virtualMice[i].position, newPos);
-                InputState.Change(_virtualMice[i].delta, deltaStickValue);
+                InputState.Change(VirtualCursors[i].position, newPos);
+                InputState.Change(VirtualCursors[i].delta, deltaStickValue);
             }
             else
             {
@@ -344,11 +345,11 @@ public class CursorManager : MonoBehaviour
                 //if gamepad, we will update the mouse state with the click input
                 else
                 {
-                    _virtualMice[i].CopyState<MouseState>(out var mouseState);
+                    VirtualCursors[i].CopyState<MouseState>(out var mouseState);
                 
                     mouseState = mouseState.WithButton(MouseButton.Left, selectButtonPressed);
                 
-                    InputState.Change(_virtualMice[i], mouseState);
+                    InputState.Change(VirtualCursors[i], mouseState);
                 
                     _prevMouseStates[i] = selectButtonPressed;
                 }
@@ -369,6 +370,8 @@ public class CursorManager : MonoBehaviour
         
         _cursorTransforms[i].anchoredPosition = anchoredPos;
     }
+    
+    public Mouse[] VirtualCursors { get; private set; }
     
     public Vector2[,] OpenNavBounds { get; private set; }
     

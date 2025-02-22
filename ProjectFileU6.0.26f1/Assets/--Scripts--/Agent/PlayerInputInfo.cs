@@ -36,6 +36,11 @@ public class PlayerInputInfo : MonoBehaviour
             if (PlayerAgentGO == null)
             {
                 PlayerAgentGO = Instantiate(playerAgentPrefab, spawnPoint.position, spawnPoint.rotation, transform);
+                
+                PlayerAgentGO.GetComponent<MeshRenderer>().material.color = 
+                    GameManager.Instance.PlayerColors[PlayerInput.playerIndex];
+                
+                GeneralPlayerControls.PlayerBasicAgent = PlayerAgentGO.GetComponent<BasicAgent>();
             }
             else
             {

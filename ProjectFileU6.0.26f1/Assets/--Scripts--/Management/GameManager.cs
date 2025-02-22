@@ -15,6 +15,12 @@ public class GameManager : MonoBehaviour
     
     [field: SerializeField] public Transform[] SpawnPoints { get; private set; }
     
+    [Header("Player Differentiation")]
+    
+    [field: SerializeField] public Color[] PlayerColors { get; private set; }
+    
+    [field: SerializeField] public Material[] PlayerMaterials { get; private set; }
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,6 +52,29 @@ public class GameManager : MonoBehaviour
             
             Debug.LogWarning("SpawnPoints array was not set correctly, values set to world origin. " +
                            "Please assign 4 spawn points to the SpawnPoints array. Non - issue in menu scenes.");
+        }
+        
+        //if length of colors not 4, set all to white and log error
+        if (PlayerColors.Length != 4)
+        {
+            PlayerColors = new Color[4];
+            
+            for (int i = 0; i < 4; i++)
+            {
+                PlayerColors[i] = Color.white;
+            }
+            
+            Debug.LogWarning("PlayerColors array was not set correctly, values set to white. " +
+                             "Please assign 4 colors to the PlayerColors array. Non - issue in menu scenes.");
+        }
+        
+        //if materials not right, can't really create, so log and destroy self
+        if (PlayerMaterials.Length != 4)
+        {
+            Debug.LogError("PlayerMaterials array was not set correctly, values set to null. " +
+                           "Please assign 4 materials to the PlayerMaterials array.");
+            
+            Destroy(gameObject);
         }
     }
 
