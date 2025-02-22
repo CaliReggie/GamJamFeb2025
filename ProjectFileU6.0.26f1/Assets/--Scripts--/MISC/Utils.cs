@@ -52,4 +52,19 @@ public class Utils : MonoBehaviour
         
         return targetPos;
     }
+
+    public static bool CanConnect(Vector3 pos, Vector3 otherPos, float maxDistance, LayerMask obstructLayers)
+    {
+        Vector3 direction = otherPos - pos;
+        
+        float distance = Vector3.Distance(pos, otherPos);
+        
+        RaycastHit hit;
+        if (Physics.Raycast(pos, direction, out hit, distance, obstructLayers))
+        {
+            return false;
+        }
+        
+        return distance <= maxDistance;
+    }
 }

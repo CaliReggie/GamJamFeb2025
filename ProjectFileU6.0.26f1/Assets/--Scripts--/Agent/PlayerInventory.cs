@@ -5,31 +5,28 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField]
     private int maxItems = 1;
-    
-    public Stack<GameObject> itemsStack { get; private set; }
-    public Stack<Sprite> spritesStack { get; private set; }
+
+    private GameObject _currentItem;
+
+    private Sprite _currentItemSprite;
     
     private void Start()
     {
-        itemsStack = new Stack<GameObject>();
+        _currentItem = null;
         
-        spritesStack = new Stack<Sprite>();
+        _currentItemSprite = null;
     }
     
-    public bool TryAddItem(GameObject cannonBall, Sprite itemSprite)
+    public bool TryAddItem(GameObject item, Sprite itemSprite)
     {
-        //Sprite itemSprite = cannonBall.GetComponent<Projectile>().ProjectileSprite;
-        
-        if (itemsStack.Count < maxItems)
+        if (_currentItem == null)
         {
-            itemsStack.Push(cannonBall);
+            _currentItem = item;
             
-            if (itemSprite != null)
-            {
-                spritesStack.Push(itemSprite);
-            }
+            _currentItemSprite = itemSprite;
             
             TellMainUIManagerToUpdateInventory();
+            
             return true;
         }
         
@@ -38,15 +35,17 @@ public class PlayerInventory : MonoBehaviour
     
     public GameObject RemoveFromInventory()
     {
-        if (itemsStack.Count > 0)
+        if (_currentItem != null)
         {
-            if (spritesStack.Count > 0)
-            {
-                spritesStack.Pop();
-            }
+            GameObject item = _currentItem;
+            
+            _currentItem = null;
+            
+            _currentItemSprite = null;
+            
             TellMainUIManagerToUpdateInventory();
             
-            return itemsStack.Pop();
+            return item;
         }
         
         return null;
@@ -54,9 +53,9 @@ public class PlayerInventory : MonoBehaviour
     
     public GameObject PeekInventory()
     {
-        if (itemsStack.Count > 0)
+        if (_currentItem != null)
         {
-            return itemsStack.Peek();
+            return _currentItem;
         }
         
         return null;
@@ -64,6 +63,6 @@ public class PlayerInventory : MonoBehaviour
     
     private void TellMainUIManagerToUpdateInventory()
     {
-        UIManager.Instance.UpdatePlayerInventory(this, spritesStack);
+        UIManager.Instance.UpdatePlayerInventory(this, _currentItemSprite);
     }
 }

@@ -148,6 +148,9 @@ public class Projectile : MonoBehaviour
         {
             Health health = collider.GetComponent<Health>();
             
+            if (!Utils.CanConnect(transform.position, collider.transform.position, trackingRadius, projectileMask)) 
+                continue;
+            
             if (health != null && teamsToTrack.Contains( health.Team ))
             {
                 if (_healthEffector.SourceHealth != null && health == _healthEffector.SourceHealth) 

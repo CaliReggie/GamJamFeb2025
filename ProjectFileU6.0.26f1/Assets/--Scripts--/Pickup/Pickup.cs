@@ -15,7 +15,9 @@ public enum EPickupType
 public class Pickup : MonoBehaviour
 {
     [Header("Pickup Type Selection")]
+    
     [SerializeField] private EPickupType pickupType;
+    
     [SerializeField] private Sprite pickUpSprite;
 
     
@@ -76,7 +78,10 @@ public class Pickup : MonoBehaviour
             transform.localScale *= decayResistance;
         }
         
-        SpawnEndEffect(false);
+        if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
+        {
+            SpawnEndEffect(false);
+        }
         
         Destroy(gameObject);
     }
@@ -90,26 +95,18 @@ public class Pickup : MonoBehaviour
         if (health == null || !teamsToAffect.Contains(health.Team)) return;
 
         
-        PlayerInventory playerInventory = GetComponentInParent<PlayerInventory>();
+        PlayerInventory playerInventory = health.GetComponentInParent<PlayerInventory>();
         
-        playerInventory.TryAddItem(gameObject, pickUpSprite);
-        if (playerInventory.TryAddItem(gameObject, pickUpSprite) == true)
+        if (playerInventory.TryAddItem(gameObject, pickUpSprite))
         {
-            
-        //Sprite itemSprite = GetComponent<Projectile>().ProjectileSprite;
-        
-        if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
-        {
-            SpawnEndEffect(true);
-        }
+            //Sprite itemSprite = GetComponent<Projectile>().ProjectileSprite;
+            if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
+            {
+                SpawnEndEffect(true);
+            }
 
-        Destroy(gameObject);
+            Destroy(gameObject);
         }
-
-        else
-        return;
-            
-        
     }
     
     private void SpawnEndEffect(bool fromPickedUp)

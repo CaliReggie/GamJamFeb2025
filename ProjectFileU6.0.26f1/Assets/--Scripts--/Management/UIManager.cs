@@ -296,7 +296,7 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    public void UpdatePlayerInventory(PlayerInventory playerInventory, Stack<Sprite> icons)
+    public void UpdatePlayerInventory(PlayerInventory playerInventory, Sprite icon)
     {
         //clear all children of corresponding rail and fill with new icons
         GameObject rail = _playerRails[playerInventory];
@@ -305,12 +305,14 @@ public class UIManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        
-        foreach (Sprite icon in icons)
+
+        if (icon != null)
         {
             GameObject iconGO = Instantiate(baseItemImage, rail.transform);
-            
+        
             iconGO.GetComponent<Image>().sprite = icon;
+        
+            iconGO.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
     }
     
