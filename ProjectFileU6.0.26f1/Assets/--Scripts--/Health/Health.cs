@@ -3,12 +3,9 @@ using UnityEngine;
 
 public enum ETeam
 {
-    Player1,
-    Player2,
-    Player3,
-    Player4,
-    Enemy,
-    Neutral
+    Neutral,
+    Player,
+    Enemy
 }
 
 public enum EEffectType
@@ -31,14 +28,22 @@ public class Health : MonoBehaviour
     [SerializeField]
     private GameObject deathDrop;
     
-    private void Die()
+    //Dynamic
+    
+    private bool _isDead;
+    
+    public void Die()
     {
+        if (_isDead) return;
+        
         if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
         {
             SpawnDeathDrop();
         }
         
         Destroy(gameObject);
+        
+        _isDead = true;
     }
 
     private void SpawnDeathDrop()

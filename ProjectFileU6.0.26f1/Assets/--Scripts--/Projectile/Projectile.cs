@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,7 +9,7 @@ public enum EProjectileGravityBehaviour
         PhysicsMass,
         PhysicsNoMass
     }
-
+[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(HealthEffector))]
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour
@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
     private bool useLifetime;
     
     [SerializeField]
-    private float lifetime = 10f;
+    private float lifetime = 5f;
 
     [Header("Projectile Forces")]
     
@@ -49,6 +49,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private bool useTracking;
     
+    [SerializeField]
+    private ETeam[] teamsToTrack;
+    
     [Range(0,1)]
     [SerializeField]
     private float trackingAccuracy = 0.05f;
@@ -59,48 +62,35 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float trackingRefreshRate = 0.4f;
     
+    //Dynamic
+    private Rigidbody _projectileRb;
+    
+    private HealthEffector _healthEffector;
+    
+    private float _timeAlive;
+    
     private Health _target;
     
-    [SerializeField]
-    private ETeam[] teamsToTrack;
-    
-    private float _timeToNextTrack;
-    
-    [Header("Display Information")]
-    
-    [SerializeField]
-    private Sprite projectileSprite;
-    
-    [Header("Dynamically Set")]
-    
-    [SerializeField]
-    private Rigidbody projectileRb;
-    
-    [SerializeField]
-    private HealthEffector healthEffector;
-    
-    //Dynamic
-    private float _timeAlive;
+    private float _timeToNextTrack; 
     
     void Awake()
     {
-        if (projectileRb == null)
+        if (_projectileRb == null)
         {
-            projectileRb = GetComponent<Rigidbody>();
+            _projectileRb = GetComponent<Rigidbody>();
             
-            if (overrideRbMass) projectileRb.mass = massToSet;
-            
-            //idk if works
-            if (overrideRbMask) projectileRb.gameObject.layer = projectileMask;
-            else projectileMask = projectileRb.gameObject.layer;
+            if (overrideRbMass) _projectileRb.mass = massToSet;
+
+            if (overrideRbMask) _projectileRb.gameObject.layer = projectileMask;
+            else projectileMask = _projectileRb.gameObject.layer;
             
             //use gravity if not linear
-            projectileRb.useGravity = projectileGravityBehaviour != EProjectileGravityBehaviour.Linear;
+            _projectileRb.useGravity = projectileGravityBehaviour != EProjectileGravityBehaviour.Linear;
         }
         
-        if (healthEffector == null)
+        if (_healthEffector == null)
         {
-            healthEffector = GetComponent<HealthEffector>();
+            _healthEffector = GetComponent<HealthEffector>();
         }
     }
     
@@ -131,7 +121,7 @@ public class Projectile : MonoBehaviour
                 
                 direction.y = 0;
 
-                Vector3 currentDirection = projectileRb.linearVelocity;
+                Vector3 currentDirection = _projectileRb.linearVelocity;
                 
                 currentDirection.y = 0;
                 
@@ -139,7 +129,7 @@ public class Projectile : MonoBehaviour
 
                 newDirection *= shotForce;
                 
-                projectileRb.linearVelocity = newDirection;
+                _projectileRb.linearVelocity = newDirection;
                 
                 transform.rotation = Quaternion.LookRotation(newDirection);
             }
@@ -160,7 +150,7 @@ public class Projectile : MonoBehaviour
             
             if (health != null && teamsToTrack.Contains( health.Team ))
             {
-                if (healthEffector.HealthEffectorType == EHealthEffectorType.Heal && health.InvisibleToHealers) 
+                if (_healthEffector.SourceHealth != null && health == _healthEffector.SourceHealth) 
                     continue;
                 
                 float distance = Vector3.Distance(transform.position, collider.transform.position);
@@ -182,7 +172,7 @@ public class Projectile : MonoBehaviour
         
         if (health != null)
         {
-            health.GuaranteedDamage(health.MaxHealth);
+            health.Die();
         }
         else
         {
@@ -192,7 +182,7 @@ public class Projectile : MonoBehaviour
     
     public Rigidbody Rigidbody
     {
-        get { return projectileRb; }
+        get { return _projectileRb; }
     }
     
     public LayerMask ProjectileMask
@@ -209,9 +199,4 @@ public class Projectile : MonoBehaviour
     {
         get { return projectileGravityBehaviour; }
     }
-    
-    public Sprite ProjectileSprite
-    {
-        get { return projectileSprite; }
-    }
-}*/
+}
