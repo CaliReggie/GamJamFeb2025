@@ -33,11 +33,10 @@ public class PlayerInventory : MonoBehaviour
             return true;
         }
         
-        
         return false;
     }
     
-    public GameObject PopInventory()
+    public GameObject RemoveFromInventory()
     {
         if (itemsStack.Count > 0)
         {
@@ -50,7 +49,6 @@ public class PlayerInventory : MonoBehaviour
             return itemsStack.Pop();
         }
         
-        
         return null;
     }
     
@@ -60,7 +58,6 @@ public class PlayerInventory : MonoBehaviour
         {
             return itemsStack.Peek();
         }
-        
         
         return null;
     }
