@@ -32,18 +32,19 @@ public class ItemSpawner : MonoBehaviour
 
     private IEnumerator SpawnItems()
     {
-        while (true)
-        {
+     while (true)
+    {
         if (canSpawn)
         {
+            yield return new WaitForSeconds(timeBetweenSpawn);
             int randomIndex = Random.Range(0, spawnPositions.Length);
             spawnedObject = Instantiate(itemToSpawn, spawnPositions[randomIndex].position, Quaternion.identity);
-            yield return new WaitForSeconds(timeBetweenSpawn);
-            }
+            yield return null;
+        }
         else 
         {
             yield return null;
         }
-        }
+    }
     }
 }
