@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -214,4 +214,4 @@ public class Projectile : MonoBehaviour
     {
         get { return projectileSprite; }
     }
-}
+}*/

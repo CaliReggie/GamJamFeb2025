@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -51,3 +52,4 @@ public class AttachForAnimEvents : MonoBehaviour
         projectileThrower.ShootProjectile();
     }
 }
+*/

@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -279,4 +279,4 @@ public class HealthEffector : MonoBehaviour
     }
     
     public EHealthEffectorType HealthEffectorType { get { return healthEffectorType; } }
-}
+}*/
