@@ -1,16 +1,50 @@
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class BasicAgent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Agent Settings")]
+    
+    [SerializeField]
+    private float agentSpeed = 3.5f; //set in inspector
+    
+    [SerializeField]
+    private float agentAcceleration = 8; //set in inspector
+    
+    [SerializeField]
+    private float agentAngularSpeed = 120; //set in inspector
+    
+    [SerializeField]
+    private float agentStoppingDistance; //set in inspector
+    
+    //Dynamic
+    
+    private NavMeshAgent _navMeshAgent;
+    
+    private void Awake()
     {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
         
+        InitializeAgentSettings();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    private void InitializeAgentSettings()
     {
+        _navMeshAgent.speed = agentSpeed;
         
+        _navMeshAgent.acceleration = agentAcceleration;
+        
+        _navMeshAgent.angularSpeed = agentAngularSpeed;
+        
+        _navMeshAgent.stoppingDistance = agentStoppingDistance;
+    }
+    
+    public Vector3 CurrentDestination
+    {
+        get => _navMeshAgent.destination;
+        set => _navMeshAgent.SetDestination(value);
     }
 }

@@ -8,21 +8,17 @@ using UnityEngine.UI;
 
 public enum ETeam
 {
-    Neutral,
-    WallPlayer,
-    GroundPlayer,
-    TroopPlayer,
-    FriendlyAI,
-    EnemyAI,
-    DefensePosition
+    Player1,
+    Player2,
+    Player3,
+    Player4,
+    Enemy
 }
 
 public enum EEffectType
 {
-    FlatSingle,
-    FlatContinuous,
-    PercentSingle,
-    PercentContinuous
+    None,
+    //add here (slow, stun, etc)
 }
 
 public class Health : MonoBehaviour
@@ -30,37 +26,6 @@ public class Health : MonoBehaviour
     [Header("Team Settings")]
     
     [SerializeField] private ETeam team;
-    
-    [Header("Health Settings")]
-    
-    [SerializeField]
-    private int maxHealth = 1;
-    
-    [SerializeField] 
-    private bool usesHealthBar;
-    
-    [SerializeField]
-    private Image healthBar;
-    
-    [Header("Behaviour Settings")]
-    
-    [SerializeField]
-    private bool hasHitEffect;
-    
-    [SerializeField]
-    private GameObject[] hitEffects;
-    
-    [SerializeField]
-    private bool hasHealEffect;
-    
-    [SerializeField]
-    private GameObject[] healEffects;
-    
-    [SerializeField]
-    private bool hasDeathDrop;
-    
-    [SerializeField]
-    private GameObject[] deathDrops;
     
     [Header("Unique Behaviours")]
     

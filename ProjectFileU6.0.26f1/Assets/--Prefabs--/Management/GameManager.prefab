@@ -85,6 +85,16 @@ MonoBehaviour:
   - {fileID: 8609079657907709}
   - {fileID: 1344801059649940341}
   - {fileID: 674550794888836418}
+  <PlayerColors>k__BackingField:
+  - {r: 0.028630257, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0.45992398, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.90909094, b: 0, a: 1}
+  <PlayerMaterials>k__BackingField:
+  - {fileID: 2100000, guid: 2fdd419291171425198ddc342b52e45f, type: 2}
+  - {fileID: 2100000, guid: 6d82c37e9176b48978acb10f4628ac0d, type: 2}
+  - {fileID: 2100000, guid: c7c7048220b8f42eeb295603546e787b, type: 2}
+  - {fileID: 2100000, guid: a88e6aa6533cf48448f2914d55dc484f, type: 2}
 --- !u!1 &6215414449430427098
 GameObject:
   m_ObjectHideFlags: 0
