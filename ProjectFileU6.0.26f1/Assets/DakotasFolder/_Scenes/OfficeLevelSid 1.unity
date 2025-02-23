@@ -15166,6 +15166,7 @@ GameObject:
   - component: {fileID: 507641319900597109}
   - component: {fileID: 557104577952962851}
   - component: {fileID: 1582616870}
+  - component: {fileID: 557104577952962852}
   m_Layer: 0
   m_Name: Coffee_Maker_Spawner_Break_Room
   m_TagString: Untagged
@@ -15213,6 +15214,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43976012062094996, guid: 751a09526279b0a4395a707e2ee22620, type: 2}
+--- !u!114 &557104577952962852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530346519186328549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToSpawn: {fileID: 530346519186328549}
+  timeBetweenSpawn: 4
+  spawnPositions: []
+  canSpawn: 1
 --- !u!1 &681476304412807050
 GameObject:
   m_ObjectHideFlags: 0
@@ -15884,6 +15901,7 @@ GameObject:
   - component: {fileID: 2962675289777447821}
   - component: {fileID: 3002846887541685725}
   - component: {fileID: 176946743}
+  - component: {fileID: 3002846887541685726}
   m_Layer: 0
   m_Name: Mini_Fridge_Spawner_Break_Room
   m_TagString: Untagged
@@ -15904,6 +15922,7 @@ GameObject:
   - component: {fileID: 2962675291016087083}
   - component: {fileID: 3002846888217761915}
   - component: {fileID: 1398774677}
+  - component: {fileID: 3002846888217761916}
   m_Layer: 0
   m_Name: Mini_Fridge_Spawner_Printer_Room
   m_TagString: Untagged
@@ -15924,6 +15943,7 @@ GameObject:
   - component: {fileID: 2962675290187669066}
   - component: {fileID: 3002846889016721434}
   - component: {fileID: 1660830710}
+  - component: {fileID: 3002846889016721435}
   m_Layer: 0
   m_Name: Mini_Fridge_Spawner_Boss_Room
   m_TagString: Untagged
@@ -16109,6 +16129,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43345465439859776, guid: 302e42be6b0659042a98f4e1b4a36545, type: 2}
+--- !u!114 &3002846887541685726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2975900558864026759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToSpawn: {fileID: 2975900558864026759}
+  timeBetweenSpawn: 4
+  spawnPositions: []
+  canSpawn: 1
 --- !u!64 &3002846888217761915
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -16131,6 +16167,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43345465439859776, guid: 302e42be6b0659042a98f4e1b4a36545, type: 2}
+--- !u!114 &3002846888217761916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2975900559773428001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToSpawn: {fileID: 2975900559773428001}
+  timeBetweenSpawn: 3
+  spawnPositions: []
+  canSpawn: 1
 --- !u!64 &3002846889016721434
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -16153,6 +16205,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43345465439859776, guid: 302e42be6b0659042a98f4e1b4a36545, type: 2}
+--- !u!114 &3002846889016721435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2975900560601887040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToSpawn: {fileID: 2975900560601887040}
+  timeBetweenSpawn: 10
+  spawnPositions: []
+  canSpawn: 1
 --- !u!1 &3575270510282312608
 GameObject:
   m_ObjectHideFlags: 0
@@ -16282,6 +16350,7 @@ GameObject:
   - component: {fileID: 4039712309405666976}
   - component: {fileID: 4088946718822976966}
   - component: {fileID: 1057534464}
+  - component: {fileID: 4088946718822976967}
   m_Layer: 0
   m_Name: FruitBowl_Spawner_Conference_Room
   m_TagString: Untagged
@@ -16311,6 +16380,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43376201617401536, guid: c88d946ea7c3b0b428f159006b2f78bd, type: 2}
+--- !u!114 &4088946718822976967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061637596417017566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToSpawn: {fileID: 4061637596417017566}
+  timeBetweenSpawn: 6
+  spawnPositions: []
+  canSpawn: 1
 --- !u!4 &4315997973712387793
 Transform:
   m_ObjectHideFlags: 0
