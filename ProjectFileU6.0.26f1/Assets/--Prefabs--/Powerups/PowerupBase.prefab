@@ -151,7 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTeams: 0100000002000000
-  effectType: 0
+  effectType: 2
+  destoryOnEffect: 1
+  stunDuration: 1.5
 --- !u!114 &1884080461544882051
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,6 +45,18 @@ public class BasicAgent : MonoBehaviour
     public Vector3 CurrentDestination
     {
         get => _navMeshAgent.destination;
-        set => _navMeshAgent.SetDestination(value);
+        set
+        {
+            if (Stunned) return;
+            
+            _navMeshAgent.SetDestination(value);
+        }
     }
+    
+    public void ClearDestination()
+    {
+        _navMeshAgent.ResetPath();
+    }
+
+    public bool Stunned { get; set; }
 }

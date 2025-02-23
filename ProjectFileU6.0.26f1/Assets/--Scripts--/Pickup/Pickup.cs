@@ -5,13 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public enum EPickupType
-{
-    None,
-    Coffee,
-    Banana,
-    Barricade
-}
 public class Pickup : MonoBehaviour
 {
     [Header("Item To Give")]
@@ -19,11 +12,7 @@ public class Pickup : MonoBehaviour
     [SerializeField]
     private GameObject itemToGive;
     
-    [Header("Pickup Type Selection")]
-    
-    [SerializeField] private EPickupType pickupType;
-    
-    [SerializeField] private Sprite pickUpSprite;
+    [SerializeField] private Sprite itemSprite;
     
     [Header("Team Settings")]
     
@@ -53,6 +42,8 @@ public class Pickup : MonoBehaviour
     //state info
     private float _intervalTime;
 
+    private bool _pickedUp;
+
     void Awake()
     {
         //PICKUP TYPE SPECIFIC PRE SETTINGS HERE
@@ -63,6 +54,8 @@ public class Pickup : MonoBehaviour
         {
             StartCoroutine(Decay());
         }
+        
+        _pickedUp = false;
     }
     
     //slowly shrink the pickup until it is destroyed by factor of decayIntervals
@@ -86,6 +79,8 @@ public class Pickup : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (_pickedUp) return;
+        
         Health health = other.GetComponent<Health>();
         
         //if health is null or the team of the health object is not in the list of teams to affect, return
@@ -94,7 +89,7 @@ public class Pickup : MonoBehaviour
         
         PlayerInventory playerInventory = health.GetComponentInParent<PlayerInventory>();
         
-        if (playerInventory.TryAddItem(itemToGive, pickUpSprite))
+        if (playerInventory.TryAddItem(itemToGive, itemSprite))
         {
             health.GetComponent<ProjectileThrower>().SetNewProjectile(itemToGive);
             
@@ -103,6 +98,8 @@ public class Pickup : MonoBehaviour
             {
                 SpawnEndEffect(true);
             }
+            
+            _pickedUp = true;
 
             Destroy(gameObject);
         }

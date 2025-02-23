@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -11,6 +13,8 @@ public enum ETeam
 public enum EEffectType
 {
     None,
+    SpawnTP,
+    Stun
     //add here (slow, stun, etc)
 }
 
@@ -32,6 +36,68 @@ public class Health : MonoBehaviour
     
     private bool _isDead;
     
+    private float _stunTimeLeft;
+
+    public void Start()
+    {
+        if (team == ETeam.Enemy)
+        {
+            GetComponent<HealthEffector>().SourceHealth = this;
+        }
+    }
+    
+    public void Stun(float duration)
+    {
+        StartCoroutine(Stunned(duration));
+    }
+    
+    private IEnumerator Stunned(float duration)
+    {
+        switch (team)
+        {
+            case ETeam.Player:
+                
+                BasicAgent basicAgent = GetComponent<BasicAgent>();
+                
+                basicAgent.ClearDestination();
+                
+                basicAgent.Stunned = true;
+                
+                break;
+            
+            case ETeam.Enemy:
+                
+                BossAgent bossAgent = GetComponent<BossAgent>();
+                
+                bossAgent.ClearDestination();
+                
+                bossAgent.Stunned = true;
+                
+                break;
+        }
+        
+        yield return new WaitForSeconds(duration);
+        
+        switch (team)
+        {
+            case ETeam.Player:
+                
+                BasicAgent basicAgent = GetComponent<BasicAgent>();
+                
+                basicAgent.Stunned = false;
+                
+                break;
+            
+            case ETeam.Enemy:
+                
+                BossAgent bossAgent = GetComponent<BossAgent>();
+                
+                bossAgent.Stunned = false;
+                
+                break;
+        }
+    }
+
     public void Die()
     {
         if (_isDead) return;

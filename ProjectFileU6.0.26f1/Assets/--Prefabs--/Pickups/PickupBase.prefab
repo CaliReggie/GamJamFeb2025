@@ -150,9 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36782404dea065d4b8255d46d8bc4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToGive: {fileID: 4512429981519687537, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
-  pickupType: 0
-  pickUpSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  itemToGive: {fileID: 6641997475283227724, guid: 56f54bd3a7f544d3899e68a7c48eeae6, type: 3}
+  itemSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   teamsToAffect: 01000000
   pickupEffect: {fileID: 0}
   fullyDecayedEffect: {fileID: 0}

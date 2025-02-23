@@ -3,12 +3,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Serialization;
 
 
 public class HealthEffector : MonoBehaviour
 {
-    [Header("Team Settings")]
+    [Header("Effect Behaviour Settings")]
     
     [SerializeField]
     [Tooltip("The teams that this effector can affect.")]
@@ -16,6 +15,14 @@ public class HealthEffector : MonoBehaviour
     
     [SerializeField]
     private EEffectType effectType;
+    
+    [SerializeField]
+    private bool destoryOnEffect;
+
+    [Header("Effect Type Specific Settings")] 
+    
+    [SerializeField]
+    private float stunDuration = 1;
 
     //Dynamic
     
@@ -38,15 +45,33 @@ public class HealthEffector : MonoBehaviour
         
         if (otherHealth != null && targetTeams.Contains(otherHealth.Team) && otherHealth != SourceHealth)
         {
-            _healthsInRange.Add(otherHealth);
-            
             switch (effectType)
             {
                 //do something
-                default:
+                case EEffectType.SpawnTP:
+                    PlayerInputInfo playerInputInfo = other.gameObject.GetComponentInParent<PlayerInputInfo>();
+                    
+                    if (playerInputInfo != null)
+                    {
+                        playerInputInfo.TogglePlayerAgentGO(true,
+                            GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex]);
+                        
+                        playerInputInfo.GeneralPlayerControls.TogglePing(true, 
+                            GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex].position);
+                    }
+                    
+                    break;
+                case EEffectType.Stun:
+                    
+                    otherHealth.Stun(stunDuration);
+                    
                     break;
             }
             
+            if (destoryOnEffect)
+            {
+                Destroy(gameObject);
+            }
         }
     }
     
