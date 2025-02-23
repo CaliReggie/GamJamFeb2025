@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 5175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: lifetime
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: projectileGravityBehaviour
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2497698381308665458, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_Mesh
