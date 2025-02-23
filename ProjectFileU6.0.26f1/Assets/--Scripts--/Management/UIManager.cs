@@ -21,8 +21,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private int pausePageChildIndex = 3;
     
-    // [SerializeField]
-    // private int gameOverChildIndex = 4;
+    [SerializeField]
+    private int gameOverChildIndex = 4;
     
     [Header("General Icon Settings")]
     
@@ -78,6 +78,17 @@ public class UIManager : MonoBehaviour
         new Vector2(-50, 50)
     };
     
+    [Header("Clockout Timer Settings")]
+    
+    [SerializeField]
+    private GameObject clockoutTimer;
+    
+    [SerializeField]
+    private EScreenPos clockoutTimerLoc = EScreenPos.TopCenter;
+    
+    [SerializeField]
+    private Vector2 clockoutTimerOffset = new Vector2(0, -25);
+    
     //private dictionary with PlayerInventory as key and corresponding inventory rail as value
     private Dictionary<PlayerInventory, GameObject> _playerRails; // gets cleared
     
@@ -94,6 +105,8 @@ public class UIManager : MonoBehaviour
     
     private Vector2[,] _playerScreenBounds;// gets updated by cursor manager when needed
     
+    private TimerImage _clockoutTimer; //gets destroyed
+    
     //Pages
     private GameObject _mainMenuPage; //stays
     
@@ -101,7 +114,7 @@ public class UIManager : MonoBehaviour
     
     private GameObject _pausePage; //stays
     
-    // private GameObject _gameOverPage; //stays
+    private GameObject _gameOverPage; //stays
     
     void Awake()
     {
@@ -129,7 +142,7 @@ public class UIManager : MonoBehaviour
         
         if (_pausePage == null) _pausePage = transform.GetChild(pausePageChildIndex).gameObject;
         
-        // if (_gameOverPage == null) _gameOverPage = transform.GetChild(gameOverChildIndex).gameObject;
+        if (_gameOverPage == null) _gameOverPage = transform.GetChild(gameOverChildIndex).gameObject;
         
         //setting locs and offsets to default if not length of 4
         if (readyButtonLocs.Length != 4) readyButtonLocs = new[]
@@ -222,25 +235,17 @@ public class UIManager : MonoBehaviour
                     toggle.ToggleIfType(EToggleType.SelectionPhaseButton, EToggleBehaviour.TurnOff);
                 }
                 
+                PlaceClockoutTimer();
+                
                 break;
                 
                 case ePlayState.Play:
                 
-                PlacePlayerInventories();    
+                PlacePlayerInventories();
                 
                 break;
             
             case ePlayState.Over:
-                
-                /*//set correct page
-                if (GameManager.Instance.GameOver)
-                {
-                    _gameWonPage.SetActive(true);
-                }
-                else
-                {
-                    Debug.LogError("Game over state called without a win or loss condition");
-                }*/
                 
                 //ensure other pages are off
                 _mainMenuPage.SetActive(false);
@@ -248,6 +253,16 @@ public class UIManager : MonoBehaviour
                 _levelSelectPage.SetActive(false);
                 
                 _pausePage.SetActive(false);
+                
+                //set correct page
+                if (GameManager.Instance.GameOver)
+                {
+                    _gameOverPage.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogError("Game over state called without a win or loss condition");
+                }
                 
                 break;
         }
@@ -397,6 +412,36 @@ public class UIManager : MonoBehaviour
         }
     }
     
+    private void PlaceClockoutTimer()
+    {
+        _clockoutTimer = Instantiate(clockoutTimer, _iconHolder).GetComponent<TimerImage>();
+        
+        RectTransform buttonRect = _clockoutTimer.GetComponent<RectTransform>();
+        
+        Vector2 screenMin = _playerScreenBounds[0, 0];
+        Vector2 screenMax = _playerScreenBounds[0, 1];
+        
+        Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, clockoutTimerLoc);
+        
+        Vector2 offset = clockoutTimerOffset;
+        
+        pos += offset;
+        
+        buttonRect.position = pos;
+        
+        _clockoutTimer.SetAndStartTimer(GameManager.Instance.GameDuration);
+        
+        _clockoutTimer.OnTimerDone += OnTimerDone;
+    }
+    
+    private void OnTimerDone()
+    {
+        if (GameManager.Instance.ClockoutZone != null)
+        {
+            GameManager.Instance.ClockoutZone.ToggleClockoutZone(true);
+        }
+    }
+    
     private void CleanForNewScene()
     {
         //turn off cursors
@@ -412,7 +457,7 @@ public class UIManager : MonoBehaviour
         
         _pausePage.SetActive(false);
         
-        // _gameOverPage.SetActive(false);
+        _gameOverPage.SetActive(false);
         
         //clear necessary data
         CLEAR_DATA();
@@ -454,6 +499,8 @@ public class UIManager : MonoBehaviour
         _playerReadyToggles = null;
         
         _playerScreenBounds = null;
+        
+        _clockoutTimer = null;
     }
     
     //cursors managed in arrays. If player input list changes, refreshing cursors makes them update to the new list

@@ -70,5 +70,8 @@ public class PlayerInputInfo : MonoBehaviour
     
     public GameObject PlayerAgentGO { get; private set; }
     
+    public bool ClockedOut { get; set; }
+    
+    public bool KnockedOut { get; set; }
 }
 

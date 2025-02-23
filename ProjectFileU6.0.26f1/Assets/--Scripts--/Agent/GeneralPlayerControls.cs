@@ -140,7 +140,7 @@ public class GeneralPlayerControls : MonoBehaviour
             _pingLineRenderer.SetPosition(1, location + Vector3.up * pingLength);
             
             //if player agent exists, set destination
-            if (PlayerBasicAgent != null)
+            if (PlayerBasicAgent != null && PlayerBasicAgent.gameObject.activeSelf)
             {
                 PlayerBasicAgent.CurrentDestination = location;
             }

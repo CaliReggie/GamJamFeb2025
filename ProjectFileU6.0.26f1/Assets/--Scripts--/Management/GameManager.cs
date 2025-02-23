@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     
     [Header("Game Management")]
     
+    [field: SerializeField] public float GameDuration { get; private set; }
+    
     [SerializeField]
     private float loadBufferTime = 2; //set in inspector
     
@@ -20,6 +22,10 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public Color[] PlayerColors { get; private set; }
     
     [field: SerializeField] public Material[] PingMaterials { get; private set; }
+    
+    [Header("Clockout")]
+    
+    [field: SerializeField] public ClockoutZone ClockoutZone { get; private set; }
     
     private void Awake()
     {
@@ -97,10 +103,14 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case ePlayState.NonGameMenu:
+                ClockoutZone.ToggleClockoutZone(false);
+                
                 break;
             
             //on load, let's set up relevant info from the game state
             case ePlayState.PregameInputDetection:
+                
+                ClockoutZone.ToggleClockoutZone(false);
 
                 InitializeGameStateInformation();
                 
@@ -144,9 +154,7 @@ public class GameManager : MonoBehaviour
     
     private void InitializeGameStateInformation()
     {
-        GameLost = false;
-        
-        GameWon = false;
+        GameOver = false;
     }
     
     private IEnumerator LoadToState(ePlayState state)
@@ -167,24 +175,13 @@ public class GameManager : MonoBehaviour
         SpawnPoints[index] = spawn;
     }
     
-    public void GAME_OVER(bool lost)
+    public void GAME_OVER()
     {
         GameStateManager gameState = GameStateManager.Instance;
 
         if (gameState != null)
         {
-            if (lost)
-            {
-                GameLost = true;
-                
-                ToggleGameOvers(false);
-            }
-            else
-            {
-                GameWon = true;
-                
-                ToggleGameOvers(true);
-            }
+            GameOver = true;
             
             gameState.CHANGE_PLAY_STATE(ePlayState.Over);
             
@@ -192,7 +189,5 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    public bool GameLost {get; private set;}
-    
-    public bool GameWon {get; private set;}
+    public bool GameOver { get; private set; }
 }
