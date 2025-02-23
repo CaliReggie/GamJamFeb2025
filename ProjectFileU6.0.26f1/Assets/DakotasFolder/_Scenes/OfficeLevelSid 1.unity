@@ -15383,7 +15383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 7319344927374846038, guid: 3b698bf2385be344dbbac56c4687894a, type: 3}
-  timeBetweenSpawn: 4
+  timeBetweenSpawn: 10
   spawnPositions:
   - {fileID: 436002210}
   canSpawn: 1
@@ -16302,7 +16302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 7319344927374846038, guid: b5d581ee5bef0e64da11aa0b9dfcfa96, type: 3}
-  timeBetweenSpawn: 4
+  timeBetweenSpawn: 10
   spawnPositions:
   - {fileID: 1847195836}
   canSpawn: 1
@@ -16380,7 +16380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 7319344927374846038, guid: b5d581ee5bef0e64da11aa0b9dfcfa96, type: 3}
-  timeBetweenSpawn: 10
+  timeBetweenSpawn: 30
   spawnPositions:
   - {fileID: 674306076}
   canSpawn: 1
@@ -16557,7 +16557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 7319344927374846038, guid: 065964f9f48a5e342b6d6c5aba81d678, type: 3}
-  timeBetweenSpawn: 6
+  timeBetweenSpawn: 25
   spawnPositions:
   - {fileID: 1511837657}
   canSpawn: 1
@@ -17405,7 +17405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 7319344927374846038, guid: b5d581ee5bef0e64da11aa0b9dfcfa96, type: 3}
-  timeBetweenSpawn: 60
+  timeBetweenSpawn: 45
   spawnPositions:
   - {fileID: 8140444989302334829}
   canSpawn: 1
@@ -17445,7 +17445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 7319344927374846038, guid: b5d581ee5bef0e64da11aa0b9dfcfa96, type: 3}
-  timeBetweenSpawn: 90
+  timeBetweenSpawn: 45
   spawnPositions:
   - {fileID: 8140444988465813391}
   canSpawn: 1
