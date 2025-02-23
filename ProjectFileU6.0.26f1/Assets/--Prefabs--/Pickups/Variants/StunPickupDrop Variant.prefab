@@ -74,15 +74,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: outlineColor.b
-      value: 0
+      value: 0.15180486
       objectReference: {fileID: 0}
     - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: outlineColor.g
-      value: 0.7848824
+      value: 0.2439949
       objectReference: {fileID: 0}
     - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: outlineColor.r
-      value: 1
+      value: 0.78113204
       objectReference: {fileID: 0}
     - target: {fileID: 2839971560831566506, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_Radius
@@ -102,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 4300000, guid: 8da3cd50722381047b0b1202c16ee46f, type: 3}
     - target: {fileID: 7128833362276233975, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_Name
-      value: StunPickup Variant
+      value: StunPickupDrop Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
