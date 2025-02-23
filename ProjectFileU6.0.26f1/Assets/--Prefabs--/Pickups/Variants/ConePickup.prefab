@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &539654886947658401
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: itemSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8c1945901c7cbeb488ae46ab83db7222, type: 3}
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: itemToGive
+      value: 
+      objectReference: {fileID: 6641997475283227724, guid: 1a4f0bdd52b64c6468e0f05489a9f1dc, type: 3}
+    - target: {fileID: 734538715471420060, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d03e424ee7865446bb330749ad2a78d, type: 2}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.366302
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05480671
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -22.80923
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: outlineColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: outlineColor.g
+      value: 0.7848824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: outlineColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2839971560831566506, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Radius
+      value: 0.34038115
+      objectReference: {fileID: 0}
+    - target: {fileID: 2839971560831566506, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Center.y
+      value: -0.000000040978193
+      objectReference: {fileID: 0}
+    - target: {fileID: 2839971560831566506, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710555667234099461, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 41c66f0a24927f34bab80e9a3a3f8494, type: 3}
+    - target: {fileID: 7128833362276233975, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Name
+      value: ConePickup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}

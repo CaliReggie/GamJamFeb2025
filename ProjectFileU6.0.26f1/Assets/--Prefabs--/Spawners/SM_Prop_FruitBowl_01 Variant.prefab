@@ -71,6 +71,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1940992545781120, guid: 41910bb046e6cc340aeb452248a82522, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2326672559857705288}
+    - targetCorrespondingSourceObject: {fileID: 1940992545781120, guid: 41910bb046e6cc340aeb452248a82522, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7283312503152596432}
   m_SourcePrefab: {fileID: 100100000, guid: 41910bb046e6cc340aeb452248a82522, type: 3}
 --- !u!1 &4061637596533913379 stripped
 GameObject:
@@ -95,3 +98,24 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &-7283312503152596432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061637596533913379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36782404dea065d4b8255d46d8bc4442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToGive: {fileID: 6641997475283227724, guid: 56f54bd3a7f544d3899e68a7c48eeae6, type: 3}
+  itemSprite: {fileID: 21300000, guid: a591d24e6e5c07e46935cd900ecade20, type: 3}
+  teamsToAffect: 01000000
+  pickupEffect: {fileID: 0}
+  fullyDecayedEffect: {fileID: 0}
+  decaysOverTime: 1
+  lifetime: 15
+  decayIntervals: 30
+  decayResistance: 0.95
