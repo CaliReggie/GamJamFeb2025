@@ -21,11 +21,8 @@ public class PlayerInputInfo : MonoBehaviour
         {
             GeneralPlayerControls = GetComponent<GeneralPlayerControls>();
         }
-        
-        if (PlayerInventory == null)
-        {
-            PlayerInventory = GetComponent<PlayerInventory>();
-        }
+
+        GeneralPlayerControls.PlayerInventory = GetComponent<PlayerInventory>();
     }
     
     public void TogglePlayerAgentGO(bool on, Transform spawnPoint)
@@ -41,6 +38,8 @@ public class PlayerInputInfo : MonoBehaviour
                     GameManager.Instance.PlayerColors[PlayerInput.playerIndex];
                 
                 GeneralPlayerControls.PlayerBasicAgent = PlayerAgentGO.GetComponent<BasicAgent>();
+                
+                GeneralPlayerControls.ProjectileThrower = PlayerAgentGO.GetComponent<ProjectileThrower>();
             }
             else
             {
@@ -68,8 +67,6 @@ public class PlayerInputInfo : MonoBehaviour
     public PlayerInput PlayerInput { get; private set; }
     
     public GeneralPlayerControls GeneralPlayerControls { get; private set; }
-    
-    public PlayerInventory PlayerInventory { get; private set; }
     
     public GameObject PlayerAgentGO { get; private set; }
     

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4311184686274258017}
   - component: {fileID: -8080062810193806702}
   - component: {fileID: 8660466141577037960}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,9 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a39ac1cfbb2ad44985f00e00e3d0229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agentSpeed: 3.5
+  agentSpeed: 4.5
   agentAcceleration: 8
-  agentAngularSpeed: 120
+  agentAngularSpeed: 140
   agentStoppingDistance: 0
 --- !u!114 &-8080062810193806702
 MonoBehaviour:
@@ -219,7 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7723375878107362742}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ThrowPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 7258069008444569682}
   - component: {fileID: 6348065467704569285}
   - component: {fileID: 7448338619481799315}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}

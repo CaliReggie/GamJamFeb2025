@@ -40,17 +40,16 @@ public class Projectile : MonoBehaviour
     private EProjectileGravityBehaviour projectileGravityBehaviour = EProjectileGravityBehaviour.Linear;
     
     [SerializeField]
-    private bool overrideRbMask;
-    
-    [SerializeField]
-    private LayerMask projectileMask = 1;
-
-    //Test zone
-    [SerializeField]
     private bool useTracking;
     
     [SerializeField]
     private ETeam[] teamsToTrack;
+    
+    [SerializeField]
+    private LayerMask detectionLayers = 1;
+    
+    [SerializeField]
+    private LayerMask obstructionLayers = 1;
     
     [Range(0,1)]
     [SerializeField]
@@ -80,9 +79,6 @@ public class Projectile : MonoBehaviour
             _projectileRb = GetComponent<Rigidbody>();
             
             if (overrideRbMass) _projectileRb.mass = massToSet;
-
-            if (overrideRbMask) _projectileRb.gameObject.layer = projectileMask;
-            else projectileMask = _projectileRb.gameObject.layer;
             
             //use gravity if not linear
             _projectileRb.useGravity = projectileGravityBehaviour != EProjectileGravityBehaviour.Linear;
@@ -138,7 +134,7 @@ public class Projectile : MonoBehaviour
     
     private Health FindClosestTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, trackingRadius, projectileMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, trackingRadius, detectionLayers);
         
         Health closestTarget = null;
         
@@ -148,10 +144,11 @@ public class Projectile : MonoBehaviour
         {
             Health health = collider.GetComponent<Health>();
             
-            if (!Utils.CanConnect(transform.position, collider.transform.position, trackingRadius, projectileMask)) 
+            if (!Utils.CanConnect(transform.position, collider.transform.position, trackingRadius,
+                    obstructionLayers)) 
                 continue;
             
-            if (health != null && teamsToTrack.Contains( health.Team ))
+            if (health != null && teamsToTrack.Contains( health.Team ) && health != _healthEffector.SourceHealth)
             {
                 if (_healthEffector.SourceHealth != null && health == _healthEffector.SourceHealth) 
                     continue;
@@ -188,9 +185,9 @@ public class Projectile : MonoBehaviour
         get { return _projectileRb; }
     }
     
-    public LayerMask ProjectileMask
+    public LayerMask ObstructionLayers
     {
-        get { return projectileMask; }
+        get { return obstructionLayers; }
     }
     
     public float ShotForce

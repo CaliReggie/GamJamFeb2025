@@ -28,6 +28,10 @@ public class ProjectileThrower : MonoBehaviour
         if (_projectilePrefab == null) return;
 
         GameObject projectile = Instantiate(_projectilePrefab, releasePoint.position, releasePoint.rotation);
+
+        Health thisHealth = GetComponent<Health>();
+        
+        projectile.GetComponent<HealthEffector>().SourceHealth = thisHealth;
         
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 734538715471420060}
   - component: {fileID: 2839971560831566506}
   - component: {fileID: 1912697117722214838}
-  - component: {fileID: 6827922948654111328}
-  - component: {fileID: 258166220659851793}
+  - component: {fileID: -1992300288102925399}
+  - component: {fileID: 2562307736431996392}
   m_Layer: 0
   m_Name: PickupBase
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -97.25853, y: 31.973814, z: 26.7474}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -138,7 +138,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6827922948654111328
+--- !u!114 &-1992300288102925399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,16 +150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36782404dea065d4b8255d46d8bc4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemToGive: {fileID: 4512429981519687537, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
   pickupType: 0
   pickUpSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   teamsToAffect: 01000000
   pickupEffect: {fileID: 0}
   fullyDecayedEffect: {fileID: 0}
   decaysOverTime: 1
-  lifetime: 20
+  lifetime: 15
   decayIntervals: 30
-  decayResistance: 0.975
---- !u!114 &258166220659851793
+  decayResistance: 0.95
+--- !u!114 &2562307736431996392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

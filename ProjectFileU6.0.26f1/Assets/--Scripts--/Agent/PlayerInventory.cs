@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField]
-    private int maxItems = 1;
-
     private GameObject _currentItem;
 
     private Sprite _currentItemSprite;

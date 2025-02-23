@@ -16,12 +16,16 @@ public class GeneralPlayerControls : MonoBehaviour
     [SerializeField]
     private float pingWidth = 1f; //set in inspector
     
+    //Dynamic
+    
     //Input info
     private PlayerInput _playerInput;
     
     private InputAction _pauseAction;
 
     private InputAction _interactAction;
+    
+    private InputAction _useItemAction;
     
     //Ping management
     private LineRenderer _pingLineRenderer;
@@ -43,13 +47,17 @@ public class GeneralPlayerControls : MonoBehaviour
         _pauseAction = _playerInput.actions["Cancel"];
         
         _interactAction = _playerInput.actions["Interact"];
+
+        _useItemAction = _playerInput.actions["Attack"];
     }
-    
+
     void OnEnable()
     {
         _pauseAction.Enable();
         
         _interactAction.Enable();
+        
+        _useItemAction.Enable();
     }
     
     void OnDisable()
@@ -57,6 +65,8 @@ public class GeneralPlayerControls : MonoBehaviour
         _pauseAction.Disable();
         
         _interactAction.Disable();
+        
+        _useItemAction.Disable();
     }
 
     void Update()
@@ -93,6 +103,16 @@ public class GeneralPlayerControls : MonoBehaviour
             
             //ping location
             TryPingLocation();
+        }
+
+        if (_useItemAction.triggered && PlayerInventory != null && ProjectileThrower != null)
+        {
+            if (PlayerInventory.PeekInventory() != null)
+            {
+                ProjectileThrower.ShootProjectile();
+                
+                PlayerInventory.RemoveFromInventory();
+            }
         }
     }
 
@@ -137,4 +157,8 @@ public class GeneralPlayerControls : MonoBehaviour
     }
     
     public BasicAgent PlayerBasicAgent { get; set; }
+    
+    public ProjectileThrower ProjectileThrower { get; set;}
+    
+    public PlayerInventory PlayerInventory { get; set; }
 }

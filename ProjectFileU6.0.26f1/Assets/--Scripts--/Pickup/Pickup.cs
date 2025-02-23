@@ -14,12 +14,16 @@ public enum EPickupType
 }
 public class Pickup : MonoBehaviour
 {
+    [Header("Item To Give")]
+    
+    [SerializeField]
+    private GameObject itemToGive;
+    
     [Header("Pickup Type Selection")]
     
     [SerializeField] private EPickupType pickupType;
     
     [SerializeField] private Sprite pickUpSprite;
-
     
     [Header("Team Settings")]
     
@@ -49,16 +53,9 @@ public class Pickup : MonoBehaviour
     //state info
     private float _intervalTime;
 
-    void Start()
+    void Awake()
     {
         //PICKUP TYPE SPECIFIC PRE SETTINGS HERE
-        
-        if (teamsToAffect.Length == 0)
-        {
-            Debug.LogError("No teams to affect set for " + gameObject.name);
-            
-            Destroy(gameObject);
-        }
         
         _intervalTime = lifetime / decayIntervals;
         
@@ -97,8 +94,10 @@ public class Pickup : MonoBehaviour
         
         PlayerInventory playerInventory = health.GetComponentInParent<PlayerInventory>();
         
-        if (playerInventory.TryAddItem(gameObject, pickUpSprite))
+        if (playerInventory.TryAddItem(itemToGive, pickUpSprite))
         {
+            health.GetComponent<ProjectileThrower>().SetNewProjectile(itemToGive);
+            
             //Sprite itemSprite = GetComponent<Projectile>().ProjectileSprite;
             if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
             {

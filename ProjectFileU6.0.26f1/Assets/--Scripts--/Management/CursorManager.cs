@@ -150,10 +150,11 @@ public class CursorManager : MonoBehaviour
                 //if desired to place keyboard cursor/mouse in center on start
                  if (_cursorTransforms[i] != null)
                  {
-                     //placing in center of players screen bounds means warping pos for keyboard
+                     //placing in center of players screen bounds means changing input state for gamepad
                      Vector2 screenPos = OpenNavBounds[i,0] + 
                                          (OpenNavBounds[i,1] - OpenNavBounds[i,0]) / 2;
                      
+                     //warps the cursor to the center of the screen
                      VirtualCursors[i].WarpCursorPosition(screenPos);
                      
                      InputState.Change(VirtualCursors[i].position, screenPos);
