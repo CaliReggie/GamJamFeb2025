@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     
     [field: SerializeField] public Color[] PlayerColors { get; private set; }
     
-    [field: SerializeField] public Material[] PlayerMaterials { get; private set; }
+    [field: SerializeField] public Material[] PingMaterials { get; private set; }
     
     private void Awake()
     {
@@ -69,10 +69,10 @@ public class GameManager : MonoBehaviour
         }
         
         //if materials not right, can't really create, so log and destroy self
-        if (PlayerMaterials.Length != 4)
+        if (PingMaterials.Length != 4)
         {
-            Debug.LogError("PlayerMaterials array was not set correctly, values set to null. " +
-                           "Please assign 4 materials to the PlayerMaterials array.");
+            Debug.LogError("PingMaterials array was not set correctly, values set to null. " +
+                           "Please assign 4 materials to the PingMaterials array.");
             
             Destroy(gameObject);
         }

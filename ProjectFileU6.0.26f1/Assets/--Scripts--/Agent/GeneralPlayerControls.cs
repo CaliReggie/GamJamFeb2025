@@ -36,7 +36,7 @@ public class GeneralPlayerControls : MonoBehaviour
         
         _pingLineRenderer = GetComponent<LineRenderer>();
         
-        _pingLineRenderer.material = GameManager.Instance.PlayerMaterials[_playerInput.playerIndex];
+        _pingLineRenderer.material = GameManager.Instance.PingMaterials[_playerInput.playerIndex];
         
         _pingLineRenderer.startWidth = pingWidth;
         

@@ -193,7 +193,6 @@ MonoBehaviour:
   mainMenuChildIndex: 1
   levelSelectChildIndex: 2
   pausePageChildIndex: 3
-  gameOverChildIndex: 4
   iconHolderName: IconHolder
   readyButton: {fileID: 2528096570847223388, guid: b48d9eea2e17a40e8b6be632a25302b7, type: 3}
   readyButtonLocs: 00000000020000000600000004000000
@@ -225,7 +224,6 @@ MonoBehaviour:
   gamePadCursorSpeed: 1500
   cursorPrefab: {fileID: 537166007451492045, guid: 42e5eaede1d5d964381455b9ad84c656, type: 3}
   cursorHolderName: CursorHolder
-  closedNavigation: 0
 --- !u!1001 &73242647503394217
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -357,6 +357,8 @@ public class UIManager : MonoBehaviour
             buttonRect.position = pos;
 
             _playerReadyToggles[i].onValueChanged.AddListener(delegate { CHECK_ALL_READY(); });
+            
+            _playerReadyToggles[i].GetComponentInChildren<Image>().color = GameManager.Instance.PlayerColors[i];
         }
     }
     
@@ -390,6 +392,8 @@ public class UIManager : MonoBehaviour
             PlayerInventory playerInventory = info.GetComponent<PlayerInventory>();
             
             _playerRails.Add(playerInventory, playerRail);
+            
+            playerRail.GetComponent<Image>().color = GameManager.Instance.PlayerColors[i];
         }
     }
     
