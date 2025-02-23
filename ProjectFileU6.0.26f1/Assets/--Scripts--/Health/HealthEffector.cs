@@ -10,7 +10,7 @@ public class HealthEffector : MonoBehaviour
     [Header("Effect Behaviour Settings")]
     
     [SerializeField]
-    [Tooltip("The teams that this effector can affect.")]
+    [Tooltip("The teams that this effector can affect. If not included, will still register hit to self on neutral.")]
     private ETeam[] targetTeams;
     
     [SerializeField]
@@ -18,6 +18,9 @@ public class HealthEffector : MonoBehaviour
     
     [SerializeField]
     private bool destoryOnEffect;
+    
+    [SerializeField]
+    private bool destroyOnNeutral;
 
     [Header("Effect Type Specific Settings")] 
     
@@ -69,6 +72,13 @@ public class HealthEffector : MonoBehaviour
             }
             
             if (destoryOnEffect)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if (otherHealth != null && otherHealth.Team == ETeam.Neutral && otherHealth != SourceHealth)
+        {
+            if (destroyOnNeutral)
             {
                 Destroy(gameObject);
             }

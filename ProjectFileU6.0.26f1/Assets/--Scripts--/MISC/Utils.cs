@@ -59,7 +59,10 @@ public class Utils : MonoBehaviour
         
         float distance = Vector3.Distance(pos, otherPos);
         
+        direction.y = 0;
+        
         RaycastHit hit;
+        
         if (Physics.Raycast(pos, direction, out hit, distance, obstructLayers))
         {
             return false;

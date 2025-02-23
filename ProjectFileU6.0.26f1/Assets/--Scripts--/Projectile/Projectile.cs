@@ -109,7 +109,7 @@ public class Projectile : MonoBehaviour
                 _timeToNextTrack = Time.time + trackingRefreshRate;
             }
             
-            if (_target == null) _target = FindClosestTarget();
+            _target = FindClosestTarget();
             
             if (_target != null)
             {
@@ -144,21 +144,23 @@ public class Projectile : MonoBehaviour
         {
             Health health = collider.GetComponent<Health>();
             
-            if (!Utils.CanConnect(transform.position, collider.transform.position, trackingRadius,
-                    obstructionLayers)) 
-                continue;
-            
-            if (health != null && teamsToTrack.Contains( health.Team ) && health != _healthEffector.SourceHealth)
+            if (health != null && teamsToTrack.Contains( health.Team ))
             {
-                if (_healthEffector.SourceHealth != null && health == _healthEffector.SourceHealth) 
-                    continue;
-                
-                float distance = Vector3.Distance(transform.position, collider.transform.position);
-                
-                if (distance < closestDistance)
+                if (Utils.CanConnect(transform.position, health.transform.position, trackingRadius,
+                    obstructionLayers))
                 {
-                    closestDistance = distance;
-                    closestTarget = health;
+                    if (_healthEffector.SourceHealth != null && health == _healthEffector.SourceHealth)
+                    {
+                        continue;
+                    }
+                    
+                    float distance = Vector3.Distance(transform.position, collider.transform.position);
+                    
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestTarget = health;
+                    }
                 }
             }
         }
