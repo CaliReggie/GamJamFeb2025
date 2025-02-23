@@ -9,24 +9,60 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: lifetime
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: itemSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: itemToGive
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: workToGive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: decayIntervals
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: decayResistance
+      value: 0.975
       objectReference: {fileID: 0}
     - target: {fileID: -1992300288102925399, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: givesWorkInstead
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 734538715471420060, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f834016e53f12c42a12baecd4450e34, type: 2}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -97.25853
+      value: 6.98
       objectReference: {fileID: 0}
     - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 31.973814
+      value: 0.97
       objectReference: {fileID: 0}
     - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.7474
+      value: -26.546926
       objectReference: {fileID: 0}
     - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56,17 +92,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 861269786907605227, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1912697117722214838, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 2562307736431996392, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: outlineWidth
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2839971560831566506, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Radius
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2839971560831566506, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 20663
       objectReference: {fileID: 0}
+    - target: {fileID: 5710555667234099461, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 5f4b404a756a4814ea8b0d2abe6db7eb, type: 3}
+    - target: {fileID: 6319624867550060474, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6319624867550060474, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 4151
+      value: 5175
       objectReference: {fileID: 0}
     - target: {fileID: 7128833362276233975, guid: 57387516245aa704b9aaee25c7e80eb0, type: 3}
       propertyPath: m_Name

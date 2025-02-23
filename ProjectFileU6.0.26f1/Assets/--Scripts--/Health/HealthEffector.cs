@@ -55,37 +55,69 @@ public class HealthEffector : MonoBehaviour
             {
                 //do something
                 case EEffectType.SpawnTP:
-                    PlayerInputInfo playerInputInfo = other.gameObject.GetComponentInParent<PlayerInputInfo>();
-                    
-                    playerInputInfo.TogglePlayerAgentGO(true,
-                        GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex]);
-                        
-                    playerInputInfo.GeneralPlayerControls.TogglePing(true, 
-                        GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex].position);
-
-                    PlayerInventory playerInventory = playerInputInfo.GeneralPlayerControls.PlayerInventory;
-
-                    if (GameManager.Instance.TimerOver)
+                    if (SourceHealth.Team == ETeam.Enemy)
                     {
-                        if (playerInputInfo.WorkCount < GameManager.Instance.WorkQuota)
+                        PlayerInputInfo playerInputInfo = other.gameObject.GetComponentInParent<PlayerInputInfo>();
+                    
+                        playerInputInfo.TogglePlayerAgentGO(true,
+                            GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex]);
+                        
+                        playerInputInfo.GeneralPlayerControls.TogglePing(true, 
+                            GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex].position);
+
+                        PlayerInventory playerInventory = playerInputInfo.GeneralPlayerControls.PlayerInventory;
+
+                        if (GameManager.Instance.TimerOver)
                         {
-                            playerInputInfo.ClockedOut = true;
+                            if (playerInputInfo.WorkCount < GameManager.Instance.WorkQuota)
+                            {
+                                playerInputInfo.KnockedOut = true;
                             
-                            playerInputInfo.TogglePlayerAgentGO(false, null);
+                                playerInputInfo.TogglePlayerAgentGO(false, null);
                             
-                            CheckGameOver();
+                                CheckGameOver();
+                            }
+                            else
+                            {
+                                playerInventory.CollectWork(-tpWorkReduction);
+                            }
                         }
                         else
                         {
                             playerInventory.CollectWork(-tpWorkReduction);
                         }
                     }
-                    else
+                    else if (SourceHealth.Team == ETeam.Player)
                     {
-                        playerInventory.CollectWork(-tpWorkReduction);
+                        BossAgent bossAgent = other.gameObject.GetComponent<BossAgent>();
+                        
+                        if (bossAgent != null)
+                        {
+                            bossAgent.ClearDestination();
+
+                            Transform loc = BossManager.Instance.spawnPoint;
+                        
+                            //teleport boss
+                            bossAgent.transform.SetPositionAndRotation(loc.position, loc.rotation);
+                            
+                            return;
+                        }
+                        
+                        PlayerInputInfo playerInputInfo = other.gameObject.GetComponentInParent<PlayerInputInfo>();
+
+                        if (playerInputInfo != null)
+                        {
+                            playerInputInfo.TogglePlayerAgentGO(true,
+                                GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex]);
+                        
+                            playerInputInfo.GeneralPlayerControls.TogglePing(true, 
+                                GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex].position);
+
+                            PlayerInventory playerInventory = playerInputInfo.GeneralPlayerControls.PlayerInventory;
+                        
+                            playerInventory.CollectWork(-tpWorkReduction);
+                        }
                     }
-                    
-                    
                     
                     break;
                 case EEffectType.Stun:
@@ -119,7 +151,7 @@ public class HealthEffector : MonoBehaviour
         }
     
         if (Array.TrueForAll(playerInputInfos.ToArray(), playerInputInfo => 
-                playerInputInfo.ClockedOut || playerInputInfo.ClockedOut))
+                playerInputInfo.ClockedOut || playerInputInfo.KnockedOut))
         {
             GameManager.Instance.GAME_OVER();
         }
@@ -139,4 +171,6 @@ public class HealthEffector : MonoBehaviour
     }
     
     public Health SourceHealth { get; set; }
+    
+    public EEffectType EffectType { get { return effectType; } }
 }

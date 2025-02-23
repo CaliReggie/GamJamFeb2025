@@ -4,6 +4,8 @@ using UnityEngine.Serialization;
 
 public class BossManager : MonoBehaviour
 {
+    public static BossManager Instance { get; private set; }
+    
     [FormerlySerializedAs("bossPrefab")]
     [Header("Prefabs")]
     
@@ -12,8 +14,12 @@ public class BossManager : MonoBehaviour
     
     [Header("Spawn Settings")]
     
-    [SerializeField]
-    private Transform spawnPoint;
+    [field: SerializeField] public Transform spawnPoint { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void OnEnable()
     {

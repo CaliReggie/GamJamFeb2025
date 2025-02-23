@@ -10,11 +10,6 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [Header("Debug IDGAF")]
-    
-    [SerializeField]
-    private float endBossSpeed = 4.5f;
-
     [Header("UI Page Settings")] 
     
     [SerializeField]
@@ -354,6 +349,13 @@ public class UIManager : MonoBehaviour
             
             //non pause state
             case ePlayState.Over:
+
+                PlayerResults results = FindAnyObjectByType<PlayerResults>();
+                
+                if (results != null)
+                {
+                    results.UpdateStats();
+                }
                 
                 break;
         }
@@ -533,7 +535,7 @@ public class UIManager : MonoBehaviour
             
             if (bossAgent != null)
             {
-                bossAgent.Speed = endBossSpeed;
+                bossAgent.SpeedBoost(0);
             }
         }
     }

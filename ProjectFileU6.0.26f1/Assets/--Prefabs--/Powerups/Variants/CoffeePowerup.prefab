@@ -26,19 +26,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: lifetime
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: massToSet
-      value: 50
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: shotForce
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: useLifetime
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: useTracking
@@ -82,31 +82,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6337251703232101907, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_Constraints
-      value: 112
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6485210029373087361, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: effectType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485210029373087361, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
+      propertyPath: stunDuration
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6485210029373087361, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: destoryOnEffect
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485210029373087361, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
+      propertyPath: tpWorkReduction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485210029373087361, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
+      propertyPath: targetTeams.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.744379
+      value: 9.134378
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -114,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -22.635427
+      value: -26.062595
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -148,13 +160,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4512429981519687537, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: -8819493690832271248}
+      insertIndex: 3
+      addedObject: {fileID: 4580382370748564192}
     - targetCorrespondingSourceObject: {fileID: 4512429981519687537, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2649516484856031393}
@@ -164,8 +177,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4512429981519687537, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
   m_PrefabInstance: {fileID: 7111820061010164541}
   m_PrefabAsset: {fileID: 0}
---- !u!135 &-8819493690832271248
-SphereCollider:
+--- !u!64 &4580382370748564192
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -177,14 +190,15 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 5175
+    m_Bits: 55
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.34038115
-  m_Center: {x: 0, y: -0.000000040978193, z: 0}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 8f699f5b90ee0b841879d6874d5fb9ac, type: 3}
 --- !u!114 &2649516484856031393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineWidth: 1.5
   precomputeOutline: 1
   bakeKeys:
   - {fileID: 4300000, guid: 8f699f5b90ee0b841879d6874d5fb9ac, type: 3}

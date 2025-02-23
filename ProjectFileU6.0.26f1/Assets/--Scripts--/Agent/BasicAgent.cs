@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,9 @@ public class BasicAgent : MonoBehaviour
     
     [SerializeField]
     private float agentSpeed = 3.5f; //set in inspector
+    
+    [SerializeField]
+    private float boostedSpeed = 6f; //set in inspector
     
     [SerializeField]
     private float agentAcceleration = 8; //set in inspector
@@ -59,10 +63,20 @@ public class BasicAgent : MonoBehaviour
     }
 
     public bool Stunned { get; set; }
-    
-    public float Speed 
+
+    public void SpeedBoost(float duration)
     {
-        get => _navMeshAgent.speed;
-        set => _navMeshAgent.speed = value;
+        StopAllCoroutines();
+        
+        StartCoroutine(SpeedBoosted(duration));
+    }
+    
+    private IEnumerator SpeedBoosted(float duration)
+    {
+        _navMeshAgent.speed = boostedSpeed;
+        
+        yield return new WaitForSeconds(duration);
+        
+        _navMeshAgent.speed = agentSpeed;
     }
 }

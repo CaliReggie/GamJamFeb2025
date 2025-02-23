@@ -107,11 +107,20 @@ public class GeneralPlayerControls : MonoBehaviour
 
         if (_useItemAction.triggered && PlayerInventory != null && ProjectileThrower != null)
         {
-            if (PlayerInventory.PeekInventory() != null)
+            GameObject inventoryItem = PlayerInventory.PeekInventory();
+            
+            if (inventoryItem != null)
             {
                 ProjectileThrower.ShootProjectile();
                 
                 PlayerInventory.RemoveFromInventory();
+                
+                HealthEffector healthEffector = inventoryItem.GetComponent<HealthEffector>();
+                
+                if (healthEffector != null && healthEffector.EffectType == EEffectType.SpeedBoost)
+                {
+                    PlayerBasicAgent.SpeedBoost(3);
+                }
             }
         }
     }
@@ -149,11 +158,6 @@ public class GeneralPlayerControls : MonoBehaviour
         {
             _pingLineRenderer.enabled = false;
         }
-    }
-
-    public bool PingActive
-    {
-        get { return _pingLineRenderer.enabled; } 
     }
     
     public BasicAgent PlayerBasicAgent { get; set; }

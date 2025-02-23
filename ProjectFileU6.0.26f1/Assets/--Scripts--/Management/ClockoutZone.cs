@@ -82,7 +82,7 @@ public class ClockoutZone : MonoBehaviour
         }
         
         if (Array.TrueForAll(playerInputInfos.ToArray(), playerInputInfo => 
-                playerInputInfo.ClockedOut || playerInputInfo.ClockedOut))
+                playerInputInfo.ClockedOut || playerInputInfo.KnockedOut))
         {
             GameManager.Instance.GAME_OVER();
         }

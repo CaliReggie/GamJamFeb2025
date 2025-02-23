@@ -7,7 +7,7 @@ public class ItemSpawner : MonoBehaviour
 {
     
     public GameObject itemToSpawn;
-    public float timeBetweenSpawn = 10f;
+    public Vector2 timeBetweenSpawn = new Vector2(5, 10);
     public Transform[] spawnPositions;
     public bool canSpawn = true;
     GameObject spawnedObject;
@@ -36,7 +36,7 @@ public class ItemSpawner : MonoBehaviour
     {
         if (canSpawn)
         {
-            yield return new WaitForSeconds(timeBetweenSpawn);
+            yield return new WaitForSeconds(Random.Range(timeBetweenSpawn.x, timeBetweenSpawn.y));
             int randomIndex = Random.Range(0, spawnPositions.Length);
             spawnedObject = Instantiate(itemToSpawn, spawnPositions[randomIndex].position, Quaternion.identity);
             yield return null;

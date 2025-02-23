@@ -10,11 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_Radius
-      value: 0.34038115
+      value: 0.125
       objectReference: {fileID: 0}
     - target: {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_Center.y
       value: -0.000000040978193
+      objectReference: {fileID: 0}
+    - target: {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
+      propertyPath: m_Center.z
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_IsTrigger
@@ -22,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 466801542200065076, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 0
+      value: 16567
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: lifetime
-      value: 0
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: massToSet
@@ -38,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: useLifetime
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: useTracking
@@ -46,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: trackingRadius
-      value: 10
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 1884080461544882051, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: trackingAccuracy
@@ -67,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 2497698381308665458, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 8da3cd50722381047b0b1202c16ee46f, type: 3}
+      objectReference: {fileID: 4300002, guid: 396604098e96b2c41866e03f89197d2e, type: 3}
     - target: {fileID: 4512429981519687537, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_Name
       value: StunPowerUpThrowTrack Variant
@@ -94,27 +98,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.802566
+      value: 2.71
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.383
+      value: 0.20219618
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.475853
+      value: -26.28
       objectReference: {fileID: 0}
     - target: {fileID: 6839081814624827038, guid: 788fe6e8b393b451aa83ef3b3142dacd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -183,8 +187,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.34038115
-  m_Center: {x: 0, y: -0.000000040978193, z: 0}
+  m_Radius: 0.125
+  m_Center: {x: 0, y: -0.000000040978193, z: 0.09}
 --- !u!114 &-9023265760522905026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 2
+  outlineWidth: 1.5
   precomputeOutline: 1
   bakeKeys:
   - {fileID: 4300000, guid: 8da3cd50722381047b0b1202c16ee46f, type: 3}

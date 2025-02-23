@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossAgentPrefab: {fileID: 5283246037303116233, guid: 6eead4161db8848b4955c7983bfb0f91, type: 3}
-  spawnPoint: {fileID: 6970355379361266640}
+  <spawnPoint>k__BackingField: {fileID: 6970355379361266640}
 --- !u!1 &5034893914917943379
 GameObject:
   m_ObjectHideFlags: 0

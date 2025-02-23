@@ -14,7 +14,8 @@ public enum EEffectType
 {
     None,
     SpawnTP,
-    Stun
+    Stun,
+    SpeedBoost
     //add here (slow, stun, etc)
 }
 

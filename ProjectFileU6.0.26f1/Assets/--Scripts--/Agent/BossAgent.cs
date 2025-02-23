@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,9 @@ public class BossAgent : MonoBehaviour
     
     [SerializeField]
     private float agentSpeed = 4f; //set in inspector
+    
+    [SerializeField]
+    private float boostedSpeed = 5.5f; //set in inspector
     
     [SerializeField]
     private float agentAcceleration = 8; //set in inspector
@@ -133,9 +137,27 @@ public class BossAgent : MonoBehaviour
 
     public bool Stunned { get; set; }
     
-    public float Speed
+    public void SpeedBoost(float duration)
     {
-        get => _navMeshAgent.speed;
-        set => _navMeshAgent.speed = value;
+        StopAllCoroutines();
+
+        if (duration == 0)
+        {
+            //just set speed to boost and not have a timer
+            _navMeshAgent.speed = boostedSpeed;
+            
+            return;
+        }
+        
+        StartCoroutine(SpeedBoosted(duration));
+    }
+    
+    private IEnumerator SpeedBoosted(float duration)
+    {
+        _navMeshAgent.speed = boostedSpeed;
+        
+        yield return new WaitForSeconds(duration);
+        
+        _navMeshAgent.speed = agentSpeed;
     }
 }

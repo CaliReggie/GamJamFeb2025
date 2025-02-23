@@ -11,7 +11,8 @@ public enum EToggleType
 public enum EToggleBehaviour
 {
     TurnOff,
-    TurnOn
+    TurnOn,
+    UpdateRefs
 }
 
 public class ToggleOnCall : MonoBehaviour
