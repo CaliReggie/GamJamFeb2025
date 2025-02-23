@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     
     [field: SerializeField] public float GameDuration { get; private set; }
     
+    [field: SerializeField] public int WorkQuota { get; private set; }
+    
     [SerializeField]
     private float loadBufferTime = 2; //set in inspector
     
@@ -142,19 +144,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = shouldPause ? 0 : 1;
     }
     
-    private void ToggleGameOvers(bool won)
-    {
-        ToggleOnCall[] toggles = FindObjectsByType<ToggleOnCall>(FindObjectsSortMode.None);
-        
-        foreach (ToggleOnCall toggle in toggles)
-        {
-            toggle.ToggleIfType(EToggleType.GameOver, EToggleBehaviour.TurnOff);
-        }
-    }
-    
     private void InitializeGameStateInformation()
     {
         GameOver = false;
+        
+        TimerOver = false;
     }
     
     private IEnumerator LoadToState(ePlayState state)
@@ -164,16 +158,6 @@ public class GameManager : MonoBehaviour
         GameStateManager.Instance.CHANGE_PLAY_STATE(state);
     }
     
-    public void SetSpawnPoint(int index, Transform spawn)
-    {
-        if (index < 0 || index >= SpawnPoints.Length)
-        {
-            Debug.LogError("Index out of range for spawn point assignment.");
-            return;
-        }
-        
-        SpawnPoints[index] = spawn;
-    }
     
     public void GAME_OVER()
     {
@@ -190,4 +174,6 @@ public class GameManager : MonoBehaviour
     }
     
     public bool GameOver { get; private set; }
+    
+    public bool TimerOver { get; set; }
 }

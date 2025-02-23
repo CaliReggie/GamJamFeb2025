@@ -326,6 +326,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTeams: 01000000
   effectType: 1
+  destoryOnEffect: 0
+  destroyOnNeutral: 0
+  stunDuration: 1
+  tpWorkReduction: 1
 --- !u!114 &3532236040818403249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentSpeed: 4
   agentAcceleration: 8
-  agentAngularSpeed: 130
+  agentAngularSpeed: 200
   agentStoppingDistance: 0
   detectionRadius: 100
   detectionLayers:

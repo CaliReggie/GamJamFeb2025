@@ -10,6 +10,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Debug IDGAF")]
+    
+    [SerializeField]
+    private float endBossSpeed = 4.5f;
+
     [Header("UI Page Settings")] 
     
     [SerializeField]
@@ -78,6 +83,29 @@ public class UIManager : MonoBehaviour
         new Vector2(-50, 50)
     };
     
+    [Header("Work Counter Settings")]
+    
+    [SerializeField] 
+    private GameObject workCounter;
+    
+    [SerializeField]
+    private EScreenPos[] workCounterLocs =
+    {
+        EScreenPos.TopLeft,
+        EScreenPos.TopRight,
+        EScreenPos.BottomLeft,
+        EScreenPos.BottomRight
+    };
+    
+    [SerializeField]
+    private Vector2[] workCounterOffsets =
+    {
+        new Vector2(50, -50),
+        new Vector2(-50, -50),
+        new Vector2(50, 50),
+        new Vector2(-50, 50)
+    };
+    
     [Header("Clockout Timer Settings")]
     
     [SerializeField]
@@ -87,7 +115,19 @@ public class UIManager : MonoBehaviour
     private EScreenPos clockoutTimerLoc = EScreenPos.TopCenter;
     
     [SerializeField]
-    private Vector2 clockoutTimerOffset = new Vector2(0, -25);
+    private Vector2 clockoutTimerOffset = new Vector2(-25, -25);
+
+    [Header("Work Quota Settings")] 
+    [SerializeField]
+    private GameObject workQuota;
+    
+    [SerializeField]
+    private EScreenPos workQuotaLoc = EScreenPos.TopCenter;
+    
+    [SerializeField]
+    private Vector2 workQuotaOffset = new Vector2(25, -25);
+    
+    
     
     //private dictionary with PlayerInventory as key and corresponding inventory rail as value
     private Dictionary<PlayerInventory, GameObject> _playerRails; // gets cleared
@@ -100,12 +140,16 @@ public class UIManager : MonoBehaviour
     
     private Toggle[] _playerReadyToggles;// gets destroyed
     
+    private WorkCounter[] _workCounters; //gets destroyed
+    
     //Rect and screen info
     private RectTransform _canvasRectTransform; //stays
     
     private Vector2[,] _playerScreenBounds;// gets updated by cursor manager when needed
     
     private TimerImage _clockoutTimer; //gets destroyed
+    
+    private WorkCounter _workQuota; //gets destroyed
     
     //Pages
     private GameObject _mainMenuPage; //stays
@@ -236,12 +280,16 @@ public class UIManager : MonoBehaviour
                 }
                 
                 PlaceClockoutTimer();
+
+                PlaceWorkQuota();
+                
+                PlacePlayerInventories();
+                                
+                PlaceWorkCounters();
                 
                 break;
                 
                 case ePlayState.Play:
-                
-                PlacePlayerInventories();
                 
                 break;
             
@@ -329,6 +377,15 @@ public class UIManager : MonoBehaviour
         
             iconGO.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
+    }
+    
+    public void UpdatePlayerWork(PlayerInventory playerInventory, int workChange)
+    {
+        PlayerInputInfo info = playerInventory.GetComponent<PlayerInputInfo>();
+        
+        info.WorkCount = Mathf.Max(0, info.WorkCount + workChange);
+        
+        _workCounters[info.PlayerInput.playerIndex].UpdateWorkCount(workChange);
     }
     
     private void ToggleCursors(bool on)
@@ -434,12 +491,73 @@ public class UIManager : MonoBehaviour
         _clockoutTimer.OnTimerDone += OnTimerDone;
     }
     
+    private void PlaceWorkCounters()
+    {
+        _workCounters = new WorkCounter[GameInputManager.Instance.PlayerInputs.Count];
+        
+        for (int i = 0; i < GameInputManager.Instance.PlayerInputs.Count; i++)
+        {
+            GameObject workCounterGO = Instantiate(workCounter, _iconHolder).gameObject;
+            
+            RectTransform buttonRect = workCounterGO.GetComponent<RectTransform>();
+            
+            Vector2 screenMin = _playerScreenBounds[i, 0];
+            Vector2 screenMax = _playerScreenBounds[i, 1];
+            
+            Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, workCounterLocs[i]);
+            
+            Vector2 offset = workCounterOffsets[i];
+            
+            pos += offset;
+            
+            buttonRect.position = pos;
+            
+            workCounterGO.GetComponent<Image>().color = GameManager.Instance.PlayerColors[i];
+            
+            WorkCounter counterComponent = workCounterGO.GetComponentInChildren<WorkCounter>();
+            
+            _workCounters[i] = counterComponent;
+        }
+    }
+    
     private void OnTimerDone()
     {
         if (GameManager.Instance.ClockoutZone != null)
         {
             GameManager.Instance.ClockoutZone.ToggleClockoutZone(true);
+            
+            GameManager.Instance.TimerOver = true;
+            
+            //find boss agent
+            BossAgent bossAgent = FindAnyObjectByType<BossAgent>();
+            
+            if (bossAgent != null)
+            {
+                bossAgent.Speed = endBossSpeed;
+            }
         }
+    }
+
+    private void PlaceWorkQuota()
+    {
+        GameObject workQuotaGO = Instantiate(workQuota, _iconHolder);
+        
+        RectTransform buttonRect = workQuotaGO.GetComponent<RectTransform>();
+        
+        Vector2 screenMin = _playerScreenBounds[0, 0];
+        Vector2 screenMax = _playerScreenBounds[0, 1];
+        
+        Vector2 pos = Utils.DeterminePlacement(screenMin, screenMax, buttonRect.rect, workQuotaLoc);
+        
+        Vector2 offset = workQuotaOffset;
+        
+        pos += offset;
+        
+        buttonRect.position = pos;
+        
+        _workQuota = workQuotaGO.GetComponentInChildren<WorkCounter>();
+        
+        _workQuota.UpdateWorkCount(GameManager.Instance.WorkQuota);
     }
     
     private void CleanForNewScene()
@@ -501,6 +619,8 @@ public class UIManager : MonoBehaviour
         _playerScreenBounds = null;
         
         _clockoutTimer = null;
+        
+        _workCounters = null;
     }
     
     //cursors managed in arrays. If player input list changes, refreshing cursors makes them update to the new list

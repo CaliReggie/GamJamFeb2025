@@ -26,6 +26,9 @@ public class HealthEffector : MonoBehaviour
     
     [SerializeField]
     private float stunDuration = 1;
+    
+    [SerializeField]
+    private int tpWorkReduction = 1;
 
     //Dynamic
     
@@ -54,14 +57,35 @@ public class HealthEffector : MonoBehaviour
                 case EEffectType.SpawnTP:
                     PlayerInputInfo playerInputInfo = other.gameObject.GetComponentInParent<PlayerInputInfo>();
                     
-                    if (playerInputInfo != null)
-                    {
-                        playerInputInfo.TogglePlayerAgentGO(true,
-                            GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex]);
+                    playerInputInfo.TogglePlayerAgentGO(true,
+                        GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex]);
                         
-                        playerInputInfo.GeneralPlayerControls.TogglePing(true, 
-                            GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex].position);
+                    playerInputInfo.GeneralPlayerControls.TogglePing(true, 
+                        GameManager.Instance.SpawnPoints[playerInputInfo.PlayerInput.playerIndex].position);
+
+                    PlayerInventory playerInventory = playerInputInfo.GeneralPlayerControls.PlayerInventory;
+
+                    if (GameManager.Instance.TimerOver)
+                    {
+                        if (playerInputInfo.WorkCount < GameManager.Instance.WorkQuota)
+                        {
+                            playerInputInfo.ClockedOut = true;
+                            
+                            playerInputInfo.TogglePlayerAgentGO(false, null);
+                            
+                            CheckGameOver();
+                        }
+                        else
+                        {
+                            playerInventory.CollectWork(-tpWorkReduction);
+                        }
                     }
+                    else
+                    {
+                        playerInventory.CollectWork(-tpWorkReduction);
+                    }
+                    
+                    
                     
                     break;
                 case EEffectType.Stun:
@@ -82,6 +106,22 @@ public class HealthEffector : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+    }
+    
+    private void CheckGameOver()
+    {
+        List<PlayerInputInfo> playerInputInfos = new List<PlayerInputInfo>();
+
+        foreach (var playerInput in GameInputManager.Instance.PlayerInputs)
+        {
+            playerInputInfos.Add(playerInput.GetComponent<PlayerInputInfo>());
+        }
+    
+        if (Array.TrueForAll(playerInputInfos.ToArray(), playerInputInfo => 
+                playerInputInfo.ClockedOut || playerInputInfo.ClockedOut))
+        {
+            GameManager.Instance.GAME_OVER();
         }
     }
     

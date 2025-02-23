@@ -62,7 +62,7 @@ public class ClockoutZone : MonoBehaviour
         
         PlayerInputInfo playerInputInfo = other.GetComponentInParent<PlayerInputInfo>();
         
-        if (playerInputInfo != null)
+        if (playerInputInfo != null && playerInputInfo.WorkCount >= GameManager.Instance.WorkQuota)
         {
             playerInputInfo.ClockedOut = true;
             

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -7,11 +8,15 @@ public class PlayerInventory : MonoBehaviour
 
     private Sprite _currentItemSprite;
     
-    private void Start()
+    private PlayerInputInfo _playerInputInfo;
+    
+    private void Awake()
     {
         _currentItem = null;
         
         _currentItemSprite = null;
+        
+        _playerInputInfo = GetComponent<PlayerInputInfo>();
     }
     
     public bool TryAddItem(GameObject item, Sprite itemSprite)
@@ -28,6 +33,11 @@ public class PlayerInventory : MonoBehaviour
         }
         
         return false;
+    }
+
+    public void CollectWork(int workChange)
+    {
+        UIManager.Instance.UpdatePlayerWork(this, workChange);
     }
     
     public GameObject RemoveFromInventory()

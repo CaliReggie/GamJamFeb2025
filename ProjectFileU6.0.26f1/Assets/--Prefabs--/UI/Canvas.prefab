@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66bf790ceda643f491b6847ab02b877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endBossSpeed: 5.5
   mainMenuChildIndex: 1
   levelSelectChildIndex: 2
   pausePageChildIndex: 3
@@ -211,9 +212,19 @@ MonoBehaviour:
   - {x: -50, y: -50}
   - {x: 50, y: 50}
   - {x: -50, y: 50}
+  workCounter: {fileID: 1857297540195404788, guid: 68d819316ca204d3c9badf7dde1de56c, type: 3}
+  workCounterLocs: 00000000020000000600000004000000
+  workCounterOffsets:
+  - {x: 50, y: -200}
+  - {x: -50, y: -200}
+  - {x: 50, y: 200}
+  - {x: -50, y: 200}
   clockoutTimer: {fileID: 2327439728363850393, guid: 8290b8b90a1524f598e71c8e21c0cb15, type: 3}
   clockoutTimerLoc: 1
-  clockoutTimerOffset: {x: 0, y: -25}
+  clockoutTimerOffset: {x: -200, y: -25}
+  workQuota: {fileID: 3420992339582106118, guid: d474a4c70f4cc4035bde858ab6475221, type: 3}
+  workQuotaLoc: 1
+  workQuotaOffset: {x: 200, y: -25}
 --- !u!114 &1259594952886401545
 MonoBehaviour:
   m_ObjectHideFlags: 0

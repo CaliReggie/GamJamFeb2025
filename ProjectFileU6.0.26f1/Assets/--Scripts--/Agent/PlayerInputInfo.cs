@@ -73,5 +73,7 @@ public class PlayerInputInfo : MonoBehaviour
     public bool ClockedOut { get; set; }
     
     public bool KnockedOut { get; set; }
+    
+    public int WorkCount { get; set; }
 }
 

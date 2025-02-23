@@ -10,6 +10,12 @@ public class Pickup : MonoBehaviour
     [Header("Item To Give")]
     
     [SerializeField]
+    private bool givesWorkInstead;
+
+    [SerializeField] 
+    private int workToGive = 1;
+    
+    [SerializeField]
     private GameObject itemToGive;
     
     [SerializeField] private Sprite itemSprite;
@@ -88,8 +94,21 @@ public class Pickup : MonoBehaviour
 
         
         PlayerInventory playerInventory = health.GetComponentInParent<PlayerInventory>();
-        
-        if (playerInventory.TryAddItem(itemToGive, itemSprite))
+
+        if (givesWorkInstead)
+        {
+            playerInventory.CollectWork(workToGive);
+            
+            if (GameStateManager.Instance.GameStateSO.CurrentPlayState != ePlayState.Over)
+            {
+                SpawnEndEffect(true);
+            }
+            
+            _pickedUp = true;
+            
+            Destroy(gameObject);
+        }
+        else if (playerInventory.TryAddItem(itemToGive, itemSprite))
         {
             health.GetComponent<ProjectileThrower>().SetNewProjectile(itemToGive);
             

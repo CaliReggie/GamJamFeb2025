@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5710555667234099461}
   - component: {fileID: 734538715471420060}
   - component: {fileID: 2839971560831566506}
+  - component: {fileID: 6319624867550060474}
   - component: {fileID: 1912697117722214838}
   - component: {fileID: -1992300288102925399}
   - component: {fileID: 2562307736431996392}
@@ -111,6 +112,27 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &6319624867550060474
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7128833362276233975}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1912697117722214838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,6 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36782404dea065d4b8255d46d8bc4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  givesWorkInstead: 0
+  workToGive: 0
   itemToGive: {fileID: 6641997475283227724, guid: 56f54bd3a7f544d3899e68a7c48eeae6, type: 3}
   itemSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   teamsToAffect: 01000000

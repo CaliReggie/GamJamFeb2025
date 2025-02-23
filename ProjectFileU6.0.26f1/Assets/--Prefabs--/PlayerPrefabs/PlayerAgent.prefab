@@ -180,7 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentSpeed: 4.5
   agentAcceleration: 8
-  agentAngularSpeed: 140
+  agentAngularSpeed: 180
   agentStoppingDistance: 0
 --- !u!114 &-8080062810193806702
 MonoBehaviour:

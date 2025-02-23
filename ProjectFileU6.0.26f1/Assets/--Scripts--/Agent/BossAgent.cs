@@ -132,4 +132,10 @@ public class BossAgent : MonoBehaviour
     }
 
     public bool Stunned { get; set; }
+    
+    public float Speed
+    {
+        get => _navMeshAgent.speed;
+        set => _navMeshAgent.speed = value;
+    }
 }

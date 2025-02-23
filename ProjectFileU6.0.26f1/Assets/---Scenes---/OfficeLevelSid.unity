@@ -4392,55 +4392,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 45bb5253d02bbcd4eb858e9e7bbf05eb, type: 3}
   m_PrefabInstance: {fileID: 1098905291}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &564534952
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 564534954}
-  - component: {fileID: 564534953}
-  m_Layer: 0
-  m_Name: TestBananaSpawner (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &564534953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564534952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 7319344927374846038, guid: 6911a1ba83807b04a8a667933cc35a57, type: 3}
-  timeBetweenSpawn: 2
-  spawnPositions:
-  - {fileID: 564534954}
-  canSpawn: 1
---- !u!4 &564534954
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564534952}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.39, y: 0.28, z: -27.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &573961978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11351,55 +11302,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!1 &1574181123
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1574181125}
-  - component: {fileID: 1574181124}
-  m_Layer: 0
-  m_Name: TestBananaSpawner (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1574181124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574181123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 7319344927374846038, guid: 8ccb63fab7c46464c93bb14cf950bd44, type: 3}
-  timeBetweenSpawn: 2
-  spawnPositions:
-  - {fileID: 1574181125}
-  canSpawn: 1
---- !u!4 &1574181125
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574181123}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.45, y: 0.28, z: -27.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!208 &1582616870
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -12035,7 +11937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69dc753e0c06e69439a765876956bc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 7319344927374846038, guid: f32d33215bb23489e80060eb480e56e9, type: 3}
+  itemToSpawn: {fileID: 2973433665507576322, guid: 6c0a3a49589d04a62aa7b6ff11555e1a, type: 3}
   timeBetweenSpawn: 2
   spawnPositions:
   - {fileID: 1661336011}
@@ -17106,5 +17008,3 @@ SceneRoots:
   - {fileID: 1208420225}
   - {fileID: 96197697}
   - {fileID: 1661336011}
-  - {fileID: 1574181125}
-  - {fileID: 564534954}

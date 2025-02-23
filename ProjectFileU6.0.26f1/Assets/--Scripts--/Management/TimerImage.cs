@@ -22,13 +22,13 @@ public class TimerImage : MonoBehaviour
 
     private void Awake()
     {
+        if (timerText == null) timerText  = GetComponentInChildren<TextMeshProUGUI>();
+        
         timerText.text = baseText + "0.00";
         
         _timeLeft = 0;
         
         _isCountingDown = false;
-        
-        timerText  = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Update()
